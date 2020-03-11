@@ -7,11 +7,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SysTool.Extensions;
+using SysTool.Models.WMI;
 
 namespace SysTool.Repositories
 {
     public class WMIRepository<T> : IRepository<T>
-        where T : class, new()
+        where T : WMIBase<T>, new()
     {
         private ManagementScope scope { get; set; }
 
@@ -20,13 +21,9 @@ namespace SysTool.Repositories
             this.scope = new ManagementScope(scope);
         }
 
-        public IQueryable<T> Get(string className, string condition)
+        public IQueryable<T> Get(string className, string condition = default)
         {
             return this.Query(className, condition);
-        }
-        public int Edit(T record, string className, string condition)
-        {
-            throw new NotImplementedException();
         }
 
         private IQueryable<T> Query(string className, string condition)
@@ -58,20 +55,14 @@ namespace SysTool.Repositories
         private T NewInstance(ManagementObject @object)
         {
             var instance = new T();
+            instance.ManagementObject = @object;
+
             typeof(T).GetPublicInstanceProperties()
                 .Where(p => p.CanWrite)
                 .ToList()
                 .ForEach(p => p.SetValue(instance, @object.Properties[p.Name].Value));
             
             return instance;
-        }
-
-        private void SetPropertyValues(ManagementObject @object, T instance)
-        {
-            typeof(T).GetPublicInstanceProperties()
-                .Where(p => p.CanRead)
-                .ToList()
-                .ForEach(p => @object.SetPropertyValue(p.Name, p.GetValue(instance, null)));
         }
     }
 }

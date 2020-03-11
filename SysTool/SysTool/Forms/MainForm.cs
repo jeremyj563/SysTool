@@ -22,7 +22,9 @@ namespace SysTool.Forms
         public async Task InitializeAsync()
         {
             var wmi = new WMIRepository<ds_user>(@"\\localhost\root\directory\ldap");
-            var groups = wmi.Get(nameof(ds_user), "ds_samAccountName='jmj'");
+            var jmj = wmi.Get(nameof(ds_user), "DS_samAccountName='jmj'").First();
+            jmj.DS_displayName = "cool";
+            jmj.Save();
         }
     }
 }

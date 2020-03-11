@@ -13,5 +13,12 @@ namespace SysTool.Extensions
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .AsEnumerable();
         }
+
+        public static string[] GetPropertyNames(this Type t)
+        {
+            return GetPublicInstanceProperties(t)
+                .Select(p => p.Name)
+                .ToArray();
+        }
     }
 }
