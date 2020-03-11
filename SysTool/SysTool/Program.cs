@@ -3,8 +3,6 @@
 // https://msdn.microsoft.com/en-us/magazine/mt620013.aspx
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
