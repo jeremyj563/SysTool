@@ -14,11 +14,10 @@ namespace SysTool.Extensions
                 .AsEnumerable();
         }
 
-        public static string[] GetPropertyNames(this Type t)
+        public static IEnumerable<PropertyInfo> GetWritableProperties(this Type t)
         {
             return GetPublicInstanceProperties(t)
-                .Select(p => p.Name)
-                .ToArray();
+                .Where(p => p.CanRead && p.CanWrite);
         }
     }
 }

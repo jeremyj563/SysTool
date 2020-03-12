@@ -1,5 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Management;
+using System.Reflection;
 using SysTool.Extensions;
 
 namespace SysTool.Models.WMI
@@ -7,43 +8,30 @@ namespace SysTool.Models.WMI
     public abstract class WMIBase<T>
     {
         public ManagementObject ManagementObject { get; set; }
-        private string[] properties { get { return typeof(T).GetPropertyNames(); } }
+        private IEnumerable<PropertyInfo> writableProperties { get; }
+
+        public WMIBase()
+        {
+            this.writableProperties = typeof(T).GetWritableProperties();
+        }
 
         public void Save()
         {
-            UpdateManagementObjectProperties();
-            
-            var putOptions = NewPutOptions();
+            UpdatetProperties();
+
+            var putOptions = new PutOptions();
+            putOptions.UseDefaultUpdateOptions(this.writableProperties);
             this.ManagementObject.Put(putOptions);
         }
 
-        private void UpdateManagementObjectProperties()
+        private void UpdatetProperties()
         {
-            typeof(T).GetPublicInstanceProperties()
-                .Where(p => p.CanRead)
-                .ToList()
-                .ForEach(p => this.ManagementObject.SetPropertyValue(p.Name, p.GetValue(this, null)));
-        }
-
-        private PutOptions NewPutOptions()
-        {
-            var context = NewPutOptionsContext();
-            var putOptions = new PutOptions()
+            foreach (var property in this.writableProperties)
             {
-                Context = context,
-                UseAmendedQualifiers = false,
-                Type = PutType.UpdateOnly
-            };
-            return putOptions;
-        }
-
-        private ManagementNamedValueCollection NewPutOptionsContext()
-        {
-            var context = new ManagementNamedValueCollection();
-            context.Add("__PUT_EXT_PROPERTIES", this.properties);
-            context.Add("__PUT_EXTENSIONS", true);
-            context.Add("__PUT_EXT_CLIENT_REQUEST", true);
-            return context;
+                var name = property.Name;
+                var value = property.GetValue(this);
+                this.ManagementObject.SetPropertyValue(name, value);
+            }
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Management;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using SysTool.Extensions;
 using SysTool.Models.WMI;
 
@@ -29,38 +24,30 @@ namespace SysTool.Repositories
         private IQueryable<T> Query(string className, string condition)
         {
             var instances = new List<T>();
-
-            var selectedProperties = NewSelectedProperties();
-            var query = new SelectQuery(className, condition, selectedProperties);
+            var query = new SelectQuery(className, condition);
 
             using (var searcher = new ManagementObjectSearcher(this.scope, query))
             {
-                searcher.Get()
-                    .OfType<ManagementObject>()
-                    .ToList()
-                    .ForEach(o => instances.Add(NewInstance(o)));
+                foreach (ManagementObject @object in searcher.Get())
+                {
+                    var instance = NewInstance(@object);
+                    instances.Add(instance);
+                }
             }
 
             return instances.AsQueryable();
         }
 
-        private string[] NewSelectedProperties()
-        {
-            return typeof(T)
-                .GetPublicInstanceProperties()
-                .Select(p => p.Name)
-                .ToArray();
-        }
-
         private T NewInstance(ManagementObject @object)
         {
-            var instance = new T();
-            instance.ManagementObject = @object;
+            var instance = new T() { ManagementObject = @object };
 
-            typeof(T).GetPublicInstanceProperties()
-                .Where(p => p.CanWrite)
-                .ToList()
-                .ForEach(p => p.SetValue(instance, @object.Properties[p.Name].Value));
+            foreach (var property in typeof(T).GetWritableProperties())
+            {
+                var name = property.Name;
+                var value = @object.Properties[name].Value;
+                property.SetValue(instance, value);
+            }
             
             return instance;
         }
