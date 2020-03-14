@@ -30,8 +30,12 @@ namespace SysTool.Repositories
             {
                 foreach (ManagementObject @object in searcher.Get())
                 {
-                    var instance = NewInstance(@object);
-                    instances.Add(instance);
+                    using (@object)
+                    {
+                        @object.Get();
+                        var instance = NewInstance(@object);
+                        instances.Add(instance);
+                    }
                 }
             }
 
