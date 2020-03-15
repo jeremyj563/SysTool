@@ -9,11 +9,11 @@ namespace SysTool.Models.WMI
     public abstract class WMIBase<T>
     {
         public ManagementObject ManagementObject { get; set; }
-        private IEnumerable<PropertyInfo> writableProperties { get; }
+        private IEnumerable<PropertyInfo> WritableProperties { get; }
 
         public WMIBase()
         {
-            this.writableProperties = typeof(T).GetWritableProperties();
+            this.WritableProperties = typeof(T).GetWritableProperties();
         }
 
         public void Save()
@@ -21,13 +21,13 @@ namespace SysTool.Models.WMI
             UpdatePropertyValues();
 
             var options = new PutOptions();
-            options.UseDefaultUpdateOptions(this.writableProperties);
+            options.UseDefaultUpdateOptions(this.WritableProperties);
             Save(options);
         }
 
         private void UpdatePropertyValues()
         {
-            foreach (var property in this.writableProperties)
+            foreach (var property in this.WritableProperties)
             {
                 var name = property.Name;
                 var value = property.GetValue(this);

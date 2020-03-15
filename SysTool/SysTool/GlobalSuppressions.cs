@@ -17,3 +17,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Program.ShowMainForm(SysTool.Forms.MainForm)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.MessageBox.OnPaint(System.Windows.Forms.PaintEventArgs)")]
 [assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.Notification.OnPaint(System.Windows.Forms.PaintEventArgs)")]
+[assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:SysTool.Models.WMI.ds_user.DS_memberOf")]
+[assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:SysTool.Models.WMI.ds_user.DS_uid")]
