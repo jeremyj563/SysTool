@@ -65,10 +65,11 @@ namespace SysTool.Forms
             // 
             // MainSplitContainer
             // 
-            this.MainSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.MainSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.MainSplitContainer.Location = new System.Drawing.Point(2, 35);
+            this.MainSplitContainer.Location = new System.Drawing.Point(2, 40);
+            this.MainSplitContainer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MainSplitContainer.Name = "MainSplitContainer";
             // 
             // MainSplitContainer.Panel1
@@ -79,8 +80,9 @@ namespace SysTool.Forms
             // 
             this.MainSplitContainer.Panel2.BackColor = System.Drawing.Color.White;
             this.MainSplitContainer.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.MainSplitContainer.Size = new System.Drawing.Size(1012, 531);
-            this.MainSplitContainer.SplitterDistance = 243;
+            this.MainSplitContainer.Size = new System.Drawing.Size(1181, 613);
+            this.MainSplitContainer.SplitterDistance = 283;
+            this.MainSplitContainer.SplitterWidth = 5;
             this.MainSplitContainer.TabIndex = 0;
             // 
             // ResourceExplorer
@@ -89,6 +91,7 @@ namespace SysTool.Forms
             this.ResourceExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResourceExplorer.HideSelection = false;
             this.ResourceExplorer.Location = new System.Drawing.Point(0, 0);
+            this.ResourceExplorer.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ResourceExplorer.Name = "ResourceExplorer";
             treeNode1.Name = "Computers";
             treeNode1.Text = "Computers";
@@ -109,35 +112,38 @@ namespace SysTool.Forms
             this.ResourceExplorer.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode6,
             treeNode8});
-            this.ResourceExplorer.Size = new System.Drawing.Size(243, 531);
+            this.ResourceExplorer.Size = new System.Drawing.Size(283, 613);
             this.ResourceExplorer.TabIndex = 0;
             // 
             // UserInputComboBox
             // 
             this.UserInputComboBox.AllowDrop = true;
-            this.UserInputComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.UserInputComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserInputComboBox.FormattingEnabled = true;
-            this.UserInputComboBox.Location = new System.Drawing.Point(107, 8);
+            this.UserInputComboBox.Location = new System.Drawing.Point(125, 9);
+            this.UserInputComboBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.UserInputComboBox.Name = "UserInputComboBox";
-            this.UserInputComboBox.Size = new System.Drawing.Size(652, 21);
+            this.UserInputComboBox.Size = new System.Drawing.Size(760, 23);
             this.UserInputComboBox.TabIndex = 0;
             // 
             // LabelResource
             // 
             this.LabelResource.AutoSize = true;
-            this.LabelResource.Location = new System.Drawing.Point(12, 11);
+            this.LabelResource.Location = new System.Drawing.Point(14, 13);
+            this.LabelResource.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LabelResource.Name = "LabelResource";
-            this.LabelResource.Size = new System.Drawing.Size(89, 13);
+            this.LabelResource.Size = new System.Drawing.Size(92, 15);
             this.LabelResource.TabIndex = 1;
             this.LabelResource.Text = "Select Resource:";
             // 
             // SubmitButton
             // 
             this.SubmitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SubmitButton.Location = new System.Drawing.Point(765, 6);
+            this.SubmitButton.Location = new System.Drawing.Point(892, 7);
+            this.SubmitButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.SubmitButton.Name = "SubmitButton";
-            this.SubmitButton.Size = new System.Drawing.Size(75, 23);
+            this.SubmitButton.Size = new System.Drawing.Size(88, 27);
             this.SubmitButton.TabIndex = 2;
             this.SubmitButton.Text = "Submit";
             this.SubmitButton.UseVisualStyleBackColor = true;
@@ -146,9 +152,10 @@ namespace SysTool.Forms
             // 
             this.ClearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ClearButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ClearButton.Location = new System.Drawing.Point(846, 6);
+            this.ClearButton.Location = new System.Drawing.Point(987, 7);
+            this.ClearButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearButton.Size = new System.Drawing.Size(88, 27);
             this.ClearButton.TabIndex = 3;
             this.ClearButton.Text = "Clear";
             this.ClearButton.UseVisualStyleBackColor = true;
@@ -157,9 +164,10 @@ namespace SysTool.Forms
             // 
             this.NewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NewButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.NewButton.Location = new System.Drawing.Point(927, 6);
+            this.NewButton.Location = new System.Drawing.Point(1082, 7);
+            this.NewButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.NewButton.Name = "NewButton";
-            this.NewButton.Size = new System.Drawing.Size(75, 23);
+            this.NewButton.Size = new System.Drawing.Size(88, 27);
             this.NewButton.TabIndex = 4;
             this.NewButton.Text = "New";
             this.NewButton.UseVisualStyleBackColor = true;
@@ -173,9 +181,10 @@ namespace SysTool.Forms
             this.ConnectionsStatusLabel,
             this.DateTimeStatusLabel});
             this.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.StatusStrip1.Location = new System.Drawing.Point(0, 569);
+            this.StatusStrip1.Location = new System.Drawing.Point(0, 660);
             this.StatusStrip1.Name = "StatusStrip1";
-            this.StatusStrip1.Size = new System.Drawing.Size(1014, 22);
+            this.StatusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.StatusStrip1.Size = new System.Drawing.Size(1183, 22);
             this.StatusStrip1.TabIndex = 5;
             this.StatusStrip1.Text = "StatusStrip1";
             // 
@@ -210,13 +219,13 @@ namespace SysTool.Forms
             this.DateTimeStatusLabel.Size = new System.Drawing.Size(133, 17);
             this.DateTimeStatusLabel.Text = "CurrentTimeStatusLabel";
             // 
-            // Form1
+            // MainForm
             // 
             this.AcceptButton = this.SubmitButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ClearButton;
-            this.ClientSize = new System.Drawing.Size(1014, 591);
+            this.ClientSize = new System.Drawing.Size(1183, 682);
             this.Controls.Add(this.StatusStrip1);
             this.Controls.Add(this.NewButton);
             this.Controls.Add(this.ClearButton);
@@ -224,14 +233,14 @@ namespace SysTool.Forms
             this.Controls.Add(this.LabelResource);
             this.Controls.Add(this.UserInputComboBox);
             this.Controls.Add(this.MainSplitContainer);
-            this.Name = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SysTool";
             this.MainSplitContainer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
             this.MainSplitContainer.ResumeLayout(false);
             this.StatusStrip1.ResumeLayout(false);
-            this.StatusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
