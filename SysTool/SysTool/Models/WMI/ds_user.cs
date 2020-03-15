@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SysTool.Models.WMI
+﻿namespace SysTool.Models.WMI
 {
     public class ds_user : WMIBase<ds_user>
     {

@@ -58,18 +58,17 @@ namespace SysTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            using (var context = new WindowsFormsSynchronizationContext())
-            {
-                SynchronizationContext.SetSynchronizationContext(context);
 
-                var program = new Program();
-                program.ExitRequested += Program_ExitRequested;
-                
-                Task programStart = program.StartAsync();
-                HandleExceptions(programStart);
+            using var context = new WindowsFormsSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(context);
 
-                Application.Run();
-            }
+            var program = new Program();
+            program.ExitRequested += Program_ExitRequested;
+
+            Task programStart = program.StartAsync();
+            HandleExceptions(programStart);
+
+            Application.Run();
         }
 
         public async Task StartAsync()
@@ -79,10 +78,8 @@ namespace SysTool
 
             if (this.LaunchForm.ShowDialog() != DialogResult.Abort)
             {
-                using (var form = new MainForm())
-                {
-                    await ShowMainForm(form).ConfigureAwait(false);
-                }
+                using var form = new MainForm();
+                await ShowMainForm(form).ConfigureAwait(false);
             }
         }
 
@@ -118,7 +115,7 @@ namespace SysTool
                 message += Environment.NewLine;
                 message += ex.StackTrace;
 
-                System.Windows.Forms.MessageBox.Show(message, "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message, "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }
