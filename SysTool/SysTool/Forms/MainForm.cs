@@ -24,7 +24,8 @@ namespace SysTool.Forms
             var wmi = new WMIRepository<ds_user>(@"\\localhost\root\directory\ldap");
             var jmj = wmi.Get(nameof(ds_user), "DS_samAccountName='jmj'").First();
             jmj.DS_displayName = "Jeremy Johnson";
-            jmj.DS_uid = new string[] { "jmj" };
+            jmj.DS_uid[0] = "jmj";
+            //jmj.DS_memberOf[0] = "";
             jmj.Save();
         }
     }

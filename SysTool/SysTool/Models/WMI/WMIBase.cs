@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.DirectoryServices;
-using System.IO;
 using System.Management;
 using System.Reflection;
 using SysTool.Extensions;
+using SysTool.Forms;
 
 namespace SysTool.Models.WMI
 {
@@ -39,9 +37,16 @@ namespace SysTool.Models.WMI
 
         private void Save(PutOptions options)
         {
-            using (this.ManagementObject)
+            try
             {
-                this.ManagementObject.Put(options);
+                using (this.ManagementObject)
+                {
+                    this.ManagementObject.Put(options);
+                }
+            }
+            catch (ManagementException ex)
+            {
+                Notification.Show(GetType().BaseType, MethodBase.GetCurrentMethod(), ex.Message);
             }
         }
     }

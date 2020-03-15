@@ -58,25 +58,31 @@ namespace SysTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            SynchronizationContext.SetSynchronizationContext(new WindowsFormsSynchronizationContext());
+            using (var context = new WindowsFormsSynchronizationContext())
+            {
+                SynchronizationContext.SetSynchronizationContext(context);
 
-            var program = new Program();
-            program.ExitRequested += Program_ExitRequested;
-            Task programStart = program.StartAsync();
+                var program = new Program();
+                program.ExitRequested += Program_ExitRequested;
+                
+                Task programStart = program.StartAsync();
+                HandleExceptions(programStart);
 
-            HandleExceptions(programStart);
-
-            Application.Run();
+                Application.Run();
+            }
         }
 
         public async Task StartAsync()
         {
-            await this.LaunchForm.InitializeAsync();
+            await this.LaunchForm.InitializeAsync().ConfigureAwait(false);
             this.LaunchForm.StartPosition = FormStartPosition.CenterScreen;
 
             if (this.LaunchForm.ShowDialog() != DialogResult.Abort)
             {
-                await ShowMainForm(new MainForm());
+                using (var form = new MainForm())
+                {
+                    await ShowMainForm(form).ConfigureAwait(false);
+                }
             }
         }
 
@@ -102,7 +108,7 @@ namespace SysTool
             {
                 // Force this to yield to the caller, so Application.Run() will be executing
                 await Task.Yield();
-                await task;
+                await task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -112,7 +118,7 @@ namespace SysTool
                 message += Environment.NewLine;
                 message += ex.StackTrace;
 
-                MessageBox.Show(message, "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Windows.Forms.MessageBox.Show(message, "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
         }

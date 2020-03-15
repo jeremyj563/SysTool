@@ -42,7 +42,7 @@ namespace SysTool.Repositories
             return instances.AsQueryable();
         }
 
-        private T NewInstance(ManagementObject @object)
+        private static T NewInstance(ManagementObject @object)
         {
             var instance = new T() { ManagementObject = @object };
 
