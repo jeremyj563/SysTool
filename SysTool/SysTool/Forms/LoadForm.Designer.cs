@@ -28,10 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoadForm));
+            this.SuspendLayout();
+            // 
+            // LoadForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "LoadForm";
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ClientSize = new System.Drawing.Size(520, 260);
+            this.ControlBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "LoadForm";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SysTool Splash";
+            this.TopMost = true;
+            this.TransparencyKey = System.Drawing.Color.Black;
+            this.Load += new System.EventHandler(this.LoadForm_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LoadForm_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LoadForm_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LoadForm_MouseUp);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

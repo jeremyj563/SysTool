@@ -7,17 +7,18 @@ namespace SysTool.Extensions
 {
     public static class TypeExtensions
     {
-        public static IEnumerable<PropertyInfo> GetPublicInstanceProperties(this Type t)
-        {
-            return t
-                .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .AsEnumerable();
-        }
-
         public static IEnumerable<PropertyInfo> GetWritableProperties(this Type t)
         {
-            return GetPublicInstanceProperties(t)
-                .Where(p => p.CanRead && p.CanWrite);
+            return t?
+                .GetProperties()
+                .Where(p => p.CanWrite);
+        }
+
+        public static IEnumerable<PropertyInfo> GetWritableProperties<TAttribute>(this Type t)
+            where TAttribute : Attribute
+        {
+            return GetWritableProperties(t)
+                .Where(p => Attribute.IsDefined(p, typeof(TAttribute)));
         }
     }
 }

@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Management;
 using System.Reflection;
+using SysTool.Attributes;
 using SysTool.Extensions;
 using SysTool.Forms;
 
 namespace SysTool.Models.WMI
 {
-    public abstract class WMIBase<T>
+    public abstract class WMIBase
     {
         public ManagementObject ManagementObject { get; set; }
         private IEnumerable<PropertyInfo> WritableProperties { get; }
 
         public WMIBase()
         {
-            this.WritableProperties = typeof(T).GetWritableProperties();
+            this.WritableProperties = this.GetType()
+                .GetWritableProperties<WMIPropertyAttribute>();
         }
 
         public void Save()

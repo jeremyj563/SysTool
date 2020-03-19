@@ -73,7 +73,7 @@ namespace SysTool.Forms
         {
             bool visible = this.DetailsTextBox.Visible;
             this.DetailsTextBox.Visible = !visible;
-            this.DetailsButton.Text = visible ? this.UpArrowText : this.DownArrowText;
+            this.DetailsButton.Text = visible ? this.DownArrowText : this.UpArrowText;
             this.Height = visible ? this.Height - 180 : this.Height + 180;
         }
 

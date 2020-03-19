@@ -7,33 +7,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Forms;
+using SysTool.Utilities;
 
 namespace SysTool
 {
     public class Program
     {
         #region Public Events
-
         public event EventHandler<EventArgs> ExitRequested;
-
         #endregion
 
         #region Private Properties
-
-        private MainForm LaunchForm { get; }
-
+        private LoadForm LoadForm { get; } = new LoadForm(DIContainer.LocalWMI);
         #endregion
 
+        #region Constructors
         private Program()
         {
             //UserSettings.Settings.Seed();
-
-            this.LaunchForm = new MainForm();
-            this.LaunchForm.FormClosed += MainForm_FormClosed;
+            this.LoadForm.FormClosed += MainForm_FormClosed;
         }
-
+        #endregion
+  
         #region Event Handlers
-
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             OnExitRequested(EventArgs.Empty);
@@ -48,18 +44,16 @@ namespace SysTool
         {
             Application.ExitThread();
         }
-
         #endregion
 
         #region Public Methods
-
         [STAThread]
         public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            using var context = new WindowsFormsSynchronizationContext();
+            var context = new WindowsFormsSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(context);
 
             var program = new Program();
@@ -70,27 +64,18 @@ namespace SysTool
 
             Application.Run();
         }
-
-        public async Task StartAsync()
-        {
-            await this.LaunchForm.InitializeAsync().ConfigureAwait(false);
-            this.LaunchForm.StartPosition = FormStartPosition.CenterScreen;
-
-            if (this.LaunchForm.ShowDialog() != DialogResult.Abort)
-            {
-                using var form = new MainForm();
-                await ShowMainForm(form).ConfigureAwait(false);
-            }
-        }
-
         #endregion
 
         #region Private Methods
+        private async Task StartAsync()
+        {
+            if (this.LoadForm.ShowDialog() != DialogResult.Abort)
+            {
+                var form = new MainForm(this.LoadForm.WMIData);
+                await ShowMainForm(form);
+            }
+        }
 
-        /// <summary>
-        /// Shows the main form of type <see cref="MainFormBase{TSheetRecord, TDBRecord}"/>
-        /// </summary>
-        /// <param name="mainForm">The main form to show.</param>
         private async Task ShowMainForm(MainForm mainForm)
         {
             mainForm.FormClosed += MainForm_FormClosed;
@@ -105,7 +90,7 @@ namespace SysTool
             {
                 // Force this to yield to the caller, so Application.Run() will be executing
                 await Task.Yield();
-                await task.ConfigureAwait(false);
+                await task;
             }
             catch (Exception ex)
             {
@@ -119,7 +104,6 @@ namespace SysTool
                 Application.Exit();
             }
         }
-
         #endregion
     }
 }

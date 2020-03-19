@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using SysTool.Attributes;
 using SysTool.Extensions;
+using SysTool.Models;
 using SysTool.Models.WMI;
 
 namespace SysTool.Repositories
 {
-    public class WMIRepository<T> : IRepository<T>
-        where T : WMIBase<T>, new()
+    public class WMIRepository
     {
         private ManagementScope scope { get; set; }
 
@@ -16,12 +17,14 @@ namespace SysTool.Repositories
             this.scope = new ManagementScope(scope);
         }
 
-        public IQueryable<T> Get(string className, string condition = default)
+        public IQueryable<T> Get<T>(string className, string condition = default)
+            where T : WMIBase, IDataUnit, new()
         {
-            return this.Query(className, condition);
+            return this.Query<T>(className, condition);
         }
 
-        private IQueryable<T> Query(string className, string condition)
+        private IQueryable<T> Query<T>(string className, string condition)
+            where T : WMIBase, IDataUnit, new()
         {
             var instances = new List<T>();
             var query = new SelectQuery(className, condition);
@@ -33,7 +36,7 @@ namespace SysTool.Repositories
                     using (@object)
                     {
                         @object.Get();
-                        var instance = NewInstance(@object);
+                        var instance = NewInstance<T>(@object);
                         instances.Add(instance);
                     }
                 }
@@ -42,11 +45,12 @@ namespace SysTool.Repositories
             return instances.AsQueryable();
         }
 
-        private static T NewInstance(ManagementObject @object)
+        private static T NewInstance<T>(ManagementObject @object)
+            where T : WMIBase, IDataUnit, new()
         {
             var instance = new T() { ManagementObject = @object };
 
-            foreach (var property in typeof(T).GetWritableProperties())
+            foreach (var property in typeof(T).GetWritableProperties<WMIPropertyAttribute>())
             {
                 var name = property.Name;
                 var value = @object.Properties[name].Value;
