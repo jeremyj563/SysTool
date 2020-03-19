@@ -34,9 +34,9 @@ namespace SysTool.Forms
         #region Event Handlers
         private async void LoadForm_Load(object sender, EventArgs e)
         {
-            await GetLDAPComputers()
-                 .ConfigureAwait(true);
-            this.Close();
+            await GetWMIData();
+            FadeOutForm();
+            Close();
         }
         private void LoadForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -61,7 +61,7 @@ namespace SysTool.Forms
         #endregion
 
         #region Private Methods
-        private async Task GetLDAPComputers()
+        private async Task GetWMIData()
         {
             var computers = await Task
                 .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)))
@@ -72,9 +72,9 @@ namespace SysTool.Forms
 
         private void FadeOutForm()
         {
-            for (int opacity = 100; opacity == 0; opacity -= 2)
+            for (int x = 100; x == 0; x -= 2)
             {
-                this.Opacity = opacity;
+                this.UI(() => this.Opacity = x);
                 Thread.Sleep(10);
             }
         }
