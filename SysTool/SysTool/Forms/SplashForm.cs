@@ -4,7 +4,7 @@ using SysTool.Models;
 
 namespace SysTool.Forms
 {
-    public partial class LoadForm : Form
+    public partial class SplashForm : Form
     {
         #region Public Properties
         public BindingList<IDataUnit> WMIData { get; } = new BindingList<IDataUnit>();
@@ -17,7 +17,7 @@ namespace SysTool.Forms
         #endregion
 
         #region Constructors
-        public LoadForm()
+        public SplashForm()
         {
             InitializeComponent();
         }

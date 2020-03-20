@@ -34,13 +34,13 @@ namespace SysTool
         #region Private Methods
         private async Task StartAsync()
         {
-            using (var loadForm = new LoadForm())
+            using (var splashForm = new SplashForm())
             {
-                loadForm.Show();
+                splashForm.Show();
 
                 var mainForm = new MainForm(DIContainer.LocalWMI);
                 mainForm.FormClosed += (s, e) => Application.ExitThread();
-                mainForm.Shown += (s, e) => loadForm.Close();
+                mainForm.Shown += (s, e) => splashForm.Close();
                 await mainForm.InitializeAsync();
                 mainForm.Show();
             }

@@ -40,13 +40,6 @@ namespace SysTool.Forms
         #region Public Methods
         public async Task InitializeAsync()
         {
-            //var wmi = new WMIRepository<ds_user>(@"\\localhost\root\directory\ldap");
-            //var jmj = wmi.Get(nameof(ds_user), "DS_samAccountName='jmj'").First();
-            //jmj.DS_displayName = "Jeremy Johnson";
-            //jmj.DS_uid[0] = "jmj";
-            ////jmj.DS_memberOf[0] = "";
-            //jmj.Save();
-
             await GetWMIData();
         }
         #endregion
@@ -55,11 +48,8 @@ namespace SysTool.Forms
         private async Task GetWMIData()
         {
             var computers = await Task
-                .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)))
-                .ConfigureAwait(true);
-
+                .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)));
             this.WMIData.DataSource = computers;
-            //await Task.Run(() => Thread.Sleep(3000));
         }
 
         private void InitializeUserInputComboBox()
