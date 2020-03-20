@@ -17,11 +17,8 @@ namespace SysTool.Forms
 {
     public partial class MainForm : Form
     {
-        #region Public Properties
-        public BindingList<IDataUnit> WMIData { get; }
-        #endregion
-
         #region Private Properties
+        private BindingSource WMIData { get; set; } = new BindingSource();
         private WMIRepository WMI { get; }
         #endregion
 
@@ -30,6 +27,13 @@ namespace SysTool.Forms
         {
             InitializeComponent();
             this.WMI = wmi;
+        }
+        #endregion
+
+        #region Public Events
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            InitializeUserInputComboBox();
         }
         #endregion
 
@@ -54,9 +58,22 @@ namespace SysTool.Forms
                 .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)))
                 .ConfigureAwait(true);
 
-            this.WMIData.AddRange(computers);
+            this.WMIData.DataSource = computers;
+            //await Task.Run(() => Thread.Sleep(3000));
+        }
 
-            await Task.Run(() => Thread.Sleep(3000));
+        private void InitializeUserInputComboBox()
+        {
+            var comboBox = this.UserInputComboBox;
+            comboBox.TextChanged += (s, e) => this.AcceptButton = this.SubmitButton;
+            comboBox.Click += (s, e) => this.AcceptButton = this.SubmitButton;
+            comboBox.DisplayMember = nameof(IDataUnit.Display);
+            comboBox.ValueMember = nameof(IDataUnit.HostName);
+            comboBox.DataSource = this.WMIData;
+            comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBox.SelectedItem = null;
+            comboBox.Focus();
         }
         #endregion
     }
