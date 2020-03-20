@@ -5,8 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SysTool.Extensions;
 using SysTool.Models;
 using SysTool.Models.WMI;
 using SysTool.Repositories;
@@ -16,14 +18,18 @@ namespace SysTool.Forms
     public partial class MainForm : Form
     {
         #region Public Properties
-        public BindingList<IDataUnit> WMIData { get; set; }
+        public BindingList<IDataUnit> WMIData { get; }
+        #endregion
+
+        #region Private Properties
+        private WMIRepository WMI { get; }
         #endregion
 
         #region Constructors
-        public MainForm(BindingList<IDataUnit> wmiData)
+        public MainForm(WMIRepository wmi)
         {
             InitializeComponent();
-            this.WMIData = wmiData;
+            this.WMI = wmi;
         }
         #endregion
 
@@ -36,8 +42,22 @@ namespace SysTool.Forms
             //jmj.DS_uid[0] = "jmj";
             ////jmj.DS_memberOf[0] = "";
             //jmj.Save();
+
+            await GetWMIData();
         }
         #endregion
 
+        #region Private Methods
+        private async Task GetWMIData()
+        {
+            var computers = await Task
+                .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)))
+                .ConfigureAwait(true);
+
+            this.WMIData.AddRange(computers);
+
+            await Task.Run(() => Thread.Sleep(3000));
+        }
+        #endregion
     }
 }

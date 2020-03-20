@@ -1,12 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Forms;
-using SysTool.Extensions;
 using SysTool.Models;
-using SysTool.Models.WMI;
-using SysTool.Repositories;
 
 namespace SysTool.Forms
 {
@@ -17,40 +11,27 @@ namespace SysTool.Forms
         #endregion
 
         #region Private Properties
-        private WMIRepository WMI { get; }
         private bool MouseDrag { get; set; }
         private int MouseX { get; set; }
         private int MouseY { get; set; }
         #endregion
 
         #region Constructors
-        public LoadForm(WMIRepository wmi)
+        public LoadForm()
         {
             InitializeComponent();
-            this.WMI = wmi;
         }
         #endregion
 
         #region Event Handlers
-        private async void LoadForm_Load(object sender, EventArgs e)
-        {
-            await GetWMIData();
-            FadeOutForm();
-            Close();
-        }
-        private void LoadForm_MouseDown(object sender, MouseEventArgs e)
+        private void this_MouseDown(object sender, MouseEventArgs e)
         {
             this.MouseDrag = true;
             this.MouseX = Cursor.Position.X - this.Left;
-            this.MouseY = Cursor.Position.Y - this.Right;
+            this.MouseY = Cursor.Position.Y - this.Top;
         }
 
-        private void LoadForm_MouseUp(object sender, MouseEventArgs e)
-        {
-            this.MouseDrag = false;
-        }
-
-        private void LoadForm_MouseMove(object sender, MouseEventArgs e)
+        private void this_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.MouseDrag)
             {
@@ -58,27 +39,11 @@ namespace SysTool.Forms
                 this.Left = Cursor.Position.X - this.MouseX;
             }
         }
-        #endregion
 
-        #region Private Methods
-        private async Task GetWMIData()
+        private void this_MouseUp(object sender, MouseEventArgs e)
         {
-            var computers = await Task
-                .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)))
-                .ConfigureAwait(true);
-
-            this.WMIData.AddRange(computers);
-        }
-
-        private void FadeOutForm()
-        {
-            for (int x = 100; x == 0; x -= 2)
-            {
-                this.UI(() => this.Opacity = x);
-                Thread.Sleep(10);
-            }
+            this.MouseDrag = false;
         }
         #endregion
-
     }
 }
