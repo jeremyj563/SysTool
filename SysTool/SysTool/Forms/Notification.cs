@@ -21,6 +21,7 @@ namespace SysTool.Forms
         {
             InitializeComponent();
 
+            this.TopMost = true;
             this.Height = 220;
             this.Text = title;
             this.MessageTextBox.Text = message;
