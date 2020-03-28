@@ -2,7 +2,6 @@
 using System.Management;
 using SysTool.Attributes;
 using SysTool.Extensions;
-using SysTool.Models;
 using SysTool.Models.WMI;
 
 namespace SysTool.Repositories
@@ -17,13 +16,13 @@ namespace SysTool.Repositories
         }
 
         public List<T> Get<T>(string className, string condition = default)
-            where T : WMIBase, IDataUnit, new()
+            where T : WMIBase, new()
         {
             return this.Query<T>(className, condition);
         }
 
         private List<T> Query<T>(string className, string condition)
-            where T : WMIBase, IDataUnit, new()
+            where T : WMIBase, new()
         {
             var instances = new List<T>();
             var query = new SelectQuery(className, condition);
@@ -45,7 +44,7 @@ namespace SysTool.Repositories
         }
 
         private static T NewInstance<T>(ManagementObject @object)
-            where T : WMIBase, IDataUnit, new()
+            where T : WMIBase, new()
         {
             var instance = new T() { ManagementObject = @object };
             var properties = typeof(T).GetWritableProperties<WMIPropertyAttribute>();
