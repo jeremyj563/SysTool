@@ -3,7 +3,7 @@
 namespace SysTool.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class WMIPropertyAttribute : Attribute
+    public class WritableAttribute : Attribute
     {
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Management;
 using System.Reflection;
 using SysTool.Attributes;
 using SysTool.Extensions;
 using SysTool.Forms;
+using static System.Reflection.MethodBase;
 
 namespace SysTool.Models.WMI
 {
@@ -15,11 +17,13 @@ namespace SysTool.Models.WMI
         public WMIBase()
         {
             this.WritableProperties = this.GetType()
-                .GetWritableProperties<WMIPropertyAttribute>();
+                .GetWritableProperties<WMIPropertyAttribute, WritableAttribute>();
         }
 
         public void Save()
         {
+            if (!this.WritableProperties.Any()) return;
+
             UpdatePropertyValues();
 
             var options = new PutOptions();
@@ -48,7 +52,7 @@ namespace SysTool.Models.WMI
             }
             catch (ManagementException ex)
             {
-                Notification.Show(GetType().BaseType, MethodBase.GetCurrentMethod(), ex.Message);
+                Notification.Show(GetType(), GetCurrentMethod(), ex.Message);
             }
         }
     }

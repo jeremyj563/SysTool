@@ -7,7 +7,9 @@ namespace SysTool.Extensions
     {
         public static void UI(this Control control, Action action)
         {
-            if (control != null && !control.IsDisposed)
+            if (control == null || action == null) return;
+
+            if (control.IsDisposed == false)
             {
                 if (control.InvokeRequired)
                 {
@@ -15,7 +17,7 @@ namespace SysTool.Extensions
                 }
                 else
                 {
-                    action?.Invoke();
+                    action.Invoke();
                 }
             }
         }

@@ -3,6 +3,6 @@
     public interface IDataUnit
     {
         public string Display { get; }
-        public string HostName { get; }
+        public string Value { get; }
     }
 }

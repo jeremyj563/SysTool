@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Management;
 using SysTool.Attributes;
 using SysTool.Extensions;
@@ -10,26 +9,26 @@ namespace SysTool.Repositories
 {
     public class WMIRepository
     {
-        private ManagementScope scope { get; set; }
+        private ManagementScope Scope { get; set; }
 
         public WMIRepository(string scope)
         {
-            this.scope = new ManagementScope(scope);
+            this.Scope = new ManagementScope(scope);
         }
 
-        public IQueryable<T> Get<T>(string className, string condition = default)
+        public List<T> Get<T>(string className, string condition = default)
             where T : WMIBase, IDataUnit, new()
         {
             return this.Query<T>(className, condition);
         }
 
-        private IQueryable<T> Query<T>(string className, string condition)
+        private List<T> Query<T>(string className, string condition)
             where T : WMIBase, IDataUnit, new()
         {
             var instances = new List<T>();
             var query = new SelectQuery(className, condition);
 
-            using (var searcher = new ManagementObjectSearcher(this.scope, query))
+            using (var searcher = new ManagementObjectSearcher(this.Scope, query))
             {
                 foreach (ManagementObject @object in searcher.Get())
                 {
@@ -42,18 +41,19 @@ namespace SysTool.Repositories
                 }
             }
 
-            return instances.AsQueryable();
+            return instances;
         }
 
         private static T NewInstance<T>(ManagementObject @object)
             where T : WMIBase, IDataUnit, new()
         {
             var instance = new T() { ManagementObject = @object };
+            var properties = typeof(T).GetWritableProperties<WMIPropertyAttribute>();
 
-            foreach (var property in typeof(T).GetWritableProperties<WMIPropertyAttribute>())
+            foreach (var property in properties)
             {
                 var name = property.Name;
-                var value = @object.Properties[name].Value;
+                var value = @object.GetPropertyValue(name);
                 property.SetValue(instance, value);
             }
             

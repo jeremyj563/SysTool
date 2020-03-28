@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Management;
 using System.Reflection;
-using System.Text;
 
 namespace SysTool.Extensions
 {
     public static class PutOptionsExtensions
     {
-        public static void UseDefaultUpdateOptions(this PutOptions putOptions, IEnumerable<PropertyInfo> updatedProperties)
-        {
-            var properties = updatedProperties.SelectArray(p => p.Name);
-            UseDefaultUpdateOptions(putOptions, properties);
-        }
         public static void UseDefaultUpdateOptions(this PutOptions putOptions, string[] updatedProperties)
         {           
             putOptions.Context = NewPutOptionsContext(updatedProperties);
             putOptions.UseAmendedQualifiers = false;
             putOptions.Type = PutType.UpdateOnly;
+        }
+
+        public static void UseDefaultUpdateOptions(this PutOptions putOptions, IEnumerable<PropertyInfo> updatedProperties)
+        {
+            var properties = updatedProperties.SelectArray(p => p.Name);
+            UseDefaultUpdateOptions(putOptions, properties);
         }
 
         private static ManagementNamedValueCollection NewPutOptionsContext(string[] updatedProperties)

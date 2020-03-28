@@ -34,6 +34,12 @@ namespace SysTool.Forms
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializeUserInputComboBox();
+
+            var users = this.WMI.Get<ds_user>(nameof(ds_user));
+            var jmj = users.Single(d => d.DS_sAMAccountName == "jmj");
+            jmj.DS_displayName = "Jemeriquai Jackson";
+            jmj.DS_uid[0] = "awesome person";
+            jmj.Save();
         }
         #endregion
 
@@ -58,7 +64,7 @@ namespace SysTool.Forms
             comboBox.TextChanged += (s, e) => this.AcceptButton = this.SubmitButton;
             comboBox.Click += (s, e) => this.AcceptButton = this.SubmitButton;
             comboBox.DisplayMember = nameof(IDataUnit.Display);
-            comboBox.ValueMember = nameof(IDataUnit.HostName);
+            comboBox.ValueMember = nameof(IDataUnit.Value);
             comboBox.DataSource = this.WMIData;
             comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
