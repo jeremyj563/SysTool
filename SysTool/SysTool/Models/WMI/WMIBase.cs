@@ -5,7 +5,6 @@ using System.Reflection;
 using SysTool.Attributes;
 using SysTool.Extensions;
 using SysTool.Forms;
-using static System.Reflection.MethodBase;
 
 namespace SysTool.Models.WMI
 {
@@ -52,7 +51,7 @@ namespace SysTool.Models.WMI
             }
             catch (ManagementException ex)
             {
-                Notification.Show(GetType(), GetCurrentMethod(), ex.Message);
+                Notification.Show(GetType(), ex);
             }
         }
     }

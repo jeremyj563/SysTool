@@ -40,12 +40,16 @@ namespace SysTool.Forms
 
         #region Static Methods
 
-        public static void Show(Type type, MethodBase method, string details)
+        public static void Show(Type type, Exception ex)
         {
-            var message = $"Type: {type?.ToString()}";
-            message += Environment.NewLine;
-            message += Environment.NewLine;
-            message += $"Method: {method?.ToString()}";
+            var message = $"Type: {type.Name}";
+            var details = "Message:";
+            details += Environment.NewLine;
+            details += ex?.Message;
+            details += "Stack Trace:";
+            details += Environment.NewLine;
+            details += ex?.StackTrace;
+
             Show(message, details);
         }
 
