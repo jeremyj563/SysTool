@@ -35,10 +35,10 @@ namespace SysTool.Forms
         {
             InitializeUserInputComboBox();
 
-            var users = this.WMI.Get<ds_user>(nameof(ds_user));
+            var users = this.WMI.Get<ds_user>();
             var jmj = users.Single(d => d.DS_sAMAccountName == "jmj");
-            jmj.DS_displayName = "Jemeriquai Jackson";
-            jmj.DS_uid[0] = "awesome person";
+            jmj.DS_displayName = "Jeremy Johnson";
+            jmj.DS_uid[0] = "jmj";
             jmj.Save();
         }
         #endregion

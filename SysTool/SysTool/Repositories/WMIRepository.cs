@@ -15,9 +15,10 @@ namespace SysTool.Repositories
             this.Scope = new ManagementScope(scope);
         }
 
-        public List<T> Get<T>(string className, string condition = default)
+        public List<T> Get<T>(string className = default, string condition = default)
             where T : WMIBase, new()
         {
+            if (className == default) className = typeof(T).Name;
             return this.Query<T>(className, condition);
         }
 
