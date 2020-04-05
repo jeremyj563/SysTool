@@ -39,7 +39,7 @@ namespace SysTool
             using var splashForm = new SplashForm();
             splashForm.Show();
 
-            var mainForm = new MainForm(DIContainer.LocalWMI);
+            var mainForm = new MainForm(DIContainer.ComputerRepository);
             mainForm.FormClosed += (s, e) => Application.ExitThread();
             mainForm.Shown += (s, e) => splashForm.Close();
             await mainForm.InitializeAsync();

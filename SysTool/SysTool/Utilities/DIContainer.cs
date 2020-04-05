@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SysTool.Models;
-using SysTool.Models.WMI;
+﻿using System.Runtime.CompilerServices;
 using SysTool.Repositories;
 
 namespace SysTool.Utilities
@@ -10,5 +6,6 @@ namespace SysTool.Utilities
     public static class DIContainer
     {
         public static WMIRepository LocalWMI { get; } = new WMIRepository(@"\\.\root\directory\ldap");
+        public static ComputerRepository ComputerRepository { get; } = new ComputerRepository(LocalWMI);
     }
 }

@@ -18,15 +18,14 @@ namespace SysTool.Forms
     public partial class MainForm : Form
     {
         #region Private Properties
-        private BindingSource WMIData { get; set; } = new BindingSource();
-        private WMIRepository WMI { get; }
+        private ComputerRepository ComputerRepository { get; }
         #endregion
 
         #region Constructors
-        public MainForm(WMIRepository wmi)
+        public MainForm(ComputerRepository computerRepository)
         {
             InitializeComponent();
-            this.WMI = wmi;
+            this.ComputerRepository = computerRepository;
         }
         #endregion
 
@@ -35,29 +34,18 @@ namespace SysTool.Forms
         {
             InitializeUserInputComboBox();
 
-            var users = this.WMI.Get<ds_user>();
-            var jmj = users.Single(d => d.DS_sAMAccountName == "jmj");
-            jmj.DS_displayName = "Jeremy Johnson";
-            jmj.DS_uid[0] = "jmj";
-            jmj.Save();
+            var computers = this.ComputerRepository.GetAll();
         }
         #endregion
 
         #region Public Methods
         public async Task InitializeAsync()
         {
-            await GetWMIData();
+            await Task.Run(() => this.ComputerRepository.Initialize());
         }
         #endregion
 
         #region Private Methods
-        private async Task GetWMIData()
-        {
-            var computers = await Task
-                .Run(() => this.WMI.Get<ds_computer>(nameof(ds_computer)));
-            this.WMIData.DataSource = computers;
-        }
-
         private void InitializeUserInputComboBox()
         {
             var comboBox = this.UserInputComboBox;
@@ -65,7 +53,7 @@ namespace SysTool.Forms
             comboBox.Click += (s, e) => this.AcceptButton = this.SubmitButton;
             comboBox.DisplayMember = nameof(IDataUnit.Display);
             comboBox.ValueMember = nameof(IDataUnit.Value);
-            comboBox.DataSource = this.WMIData;
+            comboBox.DataSource = this.ComputerRepository.BindingSource;
             comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             comboBox.SelectedItem = null;

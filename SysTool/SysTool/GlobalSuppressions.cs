@@ -34,3 +34,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Extensions.ObjectExtensions.GetBase(System.Object)~System.Type")]
 [assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.Notification.Show(System.Type,System.Exception)")]
 [assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.Notification.Show(System.Type,System.Exception,System.String)")]
+[assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Models.Computer.#ctor(SysTool.Models.WMI.ds_computer)")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~P:SysTool.Models.Computer.ds_computer")]
+[assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>", Scope = "member", Target = "~P:SysTool.Models.Computer.ds_computer")]
