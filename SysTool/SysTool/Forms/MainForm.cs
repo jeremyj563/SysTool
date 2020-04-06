@@ -35,6 +35,7 @@ namespace SysTool.Forms
             InitializeUserInputComboBox();
 
             var computers = this.ComputerRepository.GetAll();
+            var matches = this.ComputerRepository.Get("jer");
         }
         #endregion
 

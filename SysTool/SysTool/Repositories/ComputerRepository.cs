@@ -11,6 +11,7 @@ namespace SysTool.Repositories
     {
         public BindingSource BindingSource { get; } = new BindingSource();
         private WMIRepository WMI { get; }
+        private List<Computer> Computers { get { return this.BindingSource.AsList<Computer>(); } }
 
         public ComputerRepository(WMIRepository wmi)
         {
@@ -26,19 +27,24 @@ namespace SysTool.Repositories
             this.BindingSource.DataSource = computers;
         }
 
-        public  Computer Get(string hostname)
+        public List<Computer> Get(string searchText)
         {
-            var computer = this.BindingSource
-                .AsList<Computer>()
+            var computers = this.Computers
+                .Where(c => c.PropertiesContain(searchText))
+                .ToList();
+            return computers;
+        }
+
+        public Computer GetOne(string hostname)
+        {
+            var computer = this.Computers
                 .SingleOrDefault(c => c.ds_computer.DS_name == hostname);
             return computer;
         }
 
         public List<Computer> GetAll()
         {
-            var computers = this.BindingSource
-                .AsList<Computer>();
-            return computers;
+            return this.Computers;
         }
     }
 }

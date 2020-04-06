@@ -1,4 +1,5 @@
 ﻿using SysTool.Models.WMI;
+using SysTool.Extensions;
 
 namespace SysTool.Models
 {

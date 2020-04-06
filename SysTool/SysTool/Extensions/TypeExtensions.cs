@@ -28,5 +28,12 @@ namespace SysTool.Extensions
             return GetWritableProperties<TAttribute1>(t)
                 ?.Where(p => Attribute.IsDefined(p, typeof(TAttribute2)));
         }
+
+        public static IEnumerable<PropertyInfo> GetStringProperties(this Type t)
+        {
+            return t
+                ?.GetProperties()
+                ?.Where(p => p.PropertyType.Equals(typeof(string)));
+        }
     }
 }
