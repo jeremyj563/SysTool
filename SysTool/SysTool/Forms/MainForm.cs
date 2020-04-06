@@ -30,12 +30,13 @@ namespace SysTool.Forms
         #endregion
 
         #region Public Events
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
             InitializeUserInputComboBox();
 
-            var computers = this.ComputerRepository.GetAll();
-            var matches = this.ComputerRepository.Get("jer");
+            var computers = this.ComputerRepository.Get();
+            var computer_matches = this.ComputerRepository.Where(c => c.PropertiesContain("jer"));
+            var online_computers = this.ComputerRepository.Where(c => c.Online);
         }
         #endregion
 

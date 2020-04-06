@@ -7,10 +7,15 @@ namespace SysTool.Extensions
 {
     public static class TypeExtensions
     {
-        public static IEnumerable<PropertyInfo> GetWritableProperties(this Type t)
+        public static IEnumerable<PropertyInfo> GetProperties(Type t)
         {
             return t
-                ?.GetProperties()
+                ?.GetProperties();
+        }
+
+        public static IEnumerable<PropertyInfo> GetWritableProperties(this Type t)
+        {
+            return GetProperties(t)
                 ?.Where(p => p.CanWrite);
         }
 
@@ -31,8 +36,7 @@ namespace SysTool.Extensions
 
         public static IEnumerable<PropertyInfo> GetStringProperties(this Type t)
         {
-            return t
-                ?.GetProperties()
+            return GetProperties(t)
                 ?.Where(p => p.PropertyType.Equals(typeof(string)));
         }
     }

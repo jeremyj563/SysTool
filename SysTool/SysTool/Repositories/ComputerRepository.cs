@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using SysTool.Extensions;
@@ -27,24 +28,24 @@ namespace SysTool.Repositories
             this.BindingSource.DataSource = computers;
         }
 
-        public List<Computer> Get(string searchText)
-        {
-            var computers = this.Computers
-                .Where(c => c.PropertiesContain(searchText))
-                .ToList();
-            return computers;
-        }
-
-        public Computer GetOne(string hostname)
+        public Computer Get(string hostname)
         {
             var computer = this.Computers
                 .SingleOrDefault(c => c.ds_computer.DS_name == hostname);
             return computer;
         }
 
-        public List<Computer> GetAll()
+        public List<Computer> Get()
         {
             return this.Computers;
+        }
+
+        public List<Computer> Where(Func<Computer, bool> predicate)
+        {
+            var computers = this.Computers
+                .Where(predicate)
+                .ToList();
+            return computers;
         }
     }
 }
