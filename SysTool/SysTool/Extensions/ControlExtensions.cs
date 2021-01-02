@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SysTool.Extensions
-{
-    public static class ControlExtensions
-    {
-        public static void UI(this Control control, Action action)
-        {
+namespace SysTool.Extensions {
+    public static class ControlExtensions {
+        public static void UI(this Control control, Action action) {
             if (control == null || action == null) return;
 
-            if (control.IsDisposed == false)
-            {
-                if (control.InvokeRequired)
-                {
+            if (control.IsDisposed == false) {
+                if (control.InvokeRequired) {
                     control.Invoke(action);
                 }
-                else
-                {
+                else {
                     action.Invoke();
                 }
             }

@@ -9,14 +9,11 @@ using System.Windows.Forms;
 using SysTool.Forms;
 using SysTool.Utilities;
 
-namespace SysTool
-{
-    public class Program
-    {
+namespace SysTool {
+    public class Program {
         #region Public Methods
         [STAThread]
-        public static void Main()
-        {
+        public static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -25,7 +22,7 @@ namespace SysTool
 
             var program = new Program();
             Task programStart = program.StartAsync();
-            
+
             // Handle any exception thrown in mainForm.InitializeAsync()
             HandleExceptions(programStart);
 
@@ -34,8 +31,7 @@ namespace SysTool
         #endregion
 
         #region Private Methods
-        private async Task StartAsync()
-        {
+        private async Task StartAsync() {
             using var splashForm = new SplashForm();
             splashForm.Show();
 
@@ -47,16 +43,13 @@ namespace SysTool
 
         }
 
-        private static async void HandleExceptions(Task task)
-        {
-            try
-            {
+        private static async void HandleExceptions(Task task) {
+            try {
                 // Force this to yield to the caller, so Application.Run() will be executing
                 await Task.Yield();
                 await task;
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 string message = ex.GetType().Name;
                 message += Environment.NewLine;
                 message += Environment.NewLine;

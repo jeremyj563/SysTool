@@ -13,46 +13,45 @@ using SysTool.Models;
 using SysTool.Models.WMI;
 using SysTool.Repositories;
 
-namespace SysTool.Forms
-{
-    public partial class MainForm : Form
-    {
+namespace SysTool.Forms {
+    public partial class MainForm : Form {
         #region Private Properties
         private ComputerRepository ComputerRepository { get; }
         #endregion
 
         #region Constructors
-        public MainForm(ComputerRepository computerRepository)
-        {
+        public MainForm(ComputerRepository computerRepository) {
             InitializeComponent();
             this.ComputerRepository = computerRepository;
         }
         #endregion
 
         #region Public Events
-        private async void MainForm_Load(object sender, EventArgs e)
-        {
+        private async void MainForm_Load(object sender, EventArgs e) {
             InitializeUserInputComboBox();
 
-            var computers = this.ComputerRepository.Get();
-            var computer_matches = this.ComputerRepository.Where(c => c.PropertiesContain("jer"));
-            var online_computers = this.ComputerRepository.Where(c => c.Online);
+            //var computers = this.ComputerRepository.Get();
+            //var computer_matches = this.ComputerRepository.Where(c => c.PropertiesContain("jer"));
+            //var online_computers = this.ComputerRepository.Where(c => c.Online);
+        }
+        private void SubmitButton_Click(object sender, EventArgs e) {
+            this.AcceptButton = null;
+            if (this.UserInputComboBox.SelectedItem != null) {
+
+            }
         }
         #endregion
 
         #region Public Methods
-        public async Task InitializeAsync()
-        {
+        public async Task InitializeAsync() {
             await Task.Run(() => this.ComputerRepository.Initialize());
         }
         #endregion
 
         #region Private Methods
-        private void InitializeUserInputComboBox()
-        {
+        private void InitializeUserInputComboBox() {
             var comboBox = this.UserInputComboBox;
-            comboBox.TextChanged += (s, e) => this.AcceptButton = this.SubmitButton;
-            comboBox.Click += (s, e) => this.AcceptButton = this.SubmitButton;
+            comboBox.GotFocus += (s, e) => this.AcceptButton = this.SubmitButton;
             comboBox.DisplayMember = nameof(IDataUnit.Display);
             comboBox.ValueMember = nameof(IDataUnit.Value);
             comboBox.DataSource = this.ComputerRepository.BindingSource;

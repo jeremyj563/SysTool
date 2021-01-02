@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace SysTool.Attributes
-{
+namespace SysTool.Attributes {
     [AttributeUsage(AttributeTargets.Property)]
-    public class WMIPropertyAttribute : Attribute
-    {
+    public class WMIPropertyAttribute : Attribute {
     }
 }
