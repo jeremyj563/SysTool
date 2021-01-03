@@ -19,7 +19,7 @@ namespace SysTool.Repositories {
         public void Initialize() {
             var computers = this.WMI
                 .Get<ds_computer>()
-                .Select(d => new Computer(d))
+                .Select(d => new Computer(ds_computer: d))
                 .ToList();
             this.BindingSource.DataSource = computers;
         }

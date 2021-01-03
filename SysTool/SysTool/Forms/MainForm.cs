@@ -36,8 +36,11 @@ namespace SysTool.Forms {
         }
         private void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;
-            if (this.UserInputComboBox.SelectedItem != null) {
-
+            var comboBox = this.UserInputComboBox;
+            if (comboBox.SelectedItem is Computer) {
+                this.ResourceExplorer.LoadComputerNode(comboBox.SelectedItem as Computer);
+            } else {
+                this.SubmitSearch(comboBox.Text);
             }
         }
         #endregion
@@ -59,6 +62,9 @@ namespace SysTool.Forms {
             comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             comboBox.SelectedItem = null;
             comboBox.Focus();
+        }
+        private void SubmitSearch(string searchTerm) {
+            if (string.IsNullOrWhiteSpace(searchTerm)) return;
         }
         #endregion
     }
