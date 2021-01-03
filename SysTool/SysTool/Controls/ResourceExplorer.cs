@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Models;
+using SysTool.UserControls;
 
 namespace SysTool.Controls {
     public class ResourceExplorer : TreeView {
@@ -18,10 +19,11 @@ namespace SysTool.Controls {
         private TreeNode ComputersNode => this.RootNodes[nameof(Node.Computers)];
         private TreeNodeCollection ComputerNodes => this.ComputersNode.Nodes;
 
-        public void LoadComputerNode(Computer computer) {
+        public void AddComputerNode(Computer computer) {
             if (computer == null) return;
             if (this.FindComputerNode(computer) == null) {
-                var node = new TreeNode(text: computer.Display) { Name = computer.Value };
+                var panel = new ComputerPanel(computer);
+                var node = new ComputerNode(computer.Display, computer.Value, panel);
                 this.ComputerNodes.Add(node);
                 this.SelectedNode = node;
             }

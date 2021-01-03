@@ -32,13 +32,13 @@ namespace SysTool.Forms {
 
             //var computers = this.ComputerRepository.Get();
             //var computer_matches = this.ComputerRepository.Where(c => c.PropertiesContain("jer"));
-            //var online_computers = this.ComputerRepository.Where(c => c.Online);
+            var online_computers = await this.ComputerRepository.WhereAsync(c => c.TestOnlineAsync());
         }
         private void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;
             var comboBox = this.UserInputComboBox;
             if (comboBox.SelectedItem is Computer) {
-                this.ResourceExplorer.LoadComputerNode(comboBox.SelectedItem as Computer);
+                this.ResourceExplorer.AddComputerNode(comboBox.SelectedItem as Computer);
             } else {
                 this.SubmitSearch(comboBox.Text);
             }

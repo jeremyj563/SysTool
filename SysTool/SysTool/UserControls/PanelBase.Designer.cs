@@ -1,6 +1,6 @@
 ﻿
 namespace SysTool.UserControls {
-    partial class TabPanelControl {
+    partial class PanelBase {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
