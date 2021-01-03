@@ -14,10 +14,10 @@ namespace SysTool.Controls {
             Computers
         }
 
-        private TreeNode RootNode => this.Nodes[nameof(Node.RootNode)];
-        private TreeNodeCollection RootNodes => this.RootNode.Nodes;
-        private TreeNode ComputersNode => this.RootNodes[nameof(Node.Computers)];
-        private TreeNodeCollection ComputerNodes => this.ComputersNode.Nodes;
+        public TreeNode RootNode => this.Nodes[nameof(Node.RootNode)];
+        public TreeNodeCollection RootNodes => this.RootNode.Nodes;
+        public TreeNode ComputersNode => this.RootNodes[nameof(Node.Computers)];
+        public TreeNodeCollection ComputerNodes => this.ComputersNode.Nodes;
 
         public void AddComputerNode(Computer computer) {
             if (computer == null) return;

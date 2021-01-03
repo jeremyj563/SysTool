@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SysTool.Controls;
 using SysTool.Extensions;
 using SysTool.Models;
 using SysTool.Models.WMI;
 using SysTool.Repositories;
+using SysTool.UserControls;
 
 namespace SysTool.Forms {
     public partial class MainForm : Form {
@@ -32,7 +34,7 @@ namespace SysTool.Forms {
 
             //var computers = this.ComputerRepository.Get();
             //var computer_matches = this.ComputerRepository.Where(c => c.PropertiesContain("jer"));
-            var online_computers = await this.ComputerRepository.WhereAsync(c => c.TestOnlineAsync());
+            //var online_computers = await this.ComputerRepository.WhereAsync(c => c.TestOnlineAsync());
         }
         private void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;
@@ -41,6 +43,12 @@ namespace SysTool.Forms {
                 this.ResourceExplorer.AddComputerNode(comboBox.SelectedItem as Computer);
             } else {
                 this.SubmitSearch(comboBox.Text);
+            }
+        }
+        private void ResourceExplorer_AfterSelect(object sender, TreeViewEventArgs e) {
+            if (this.ResourceExplorer.SelectedNode.Parent == this.ResourceExplorer.ComputersNode) {
+                var node = this.ResourceExplorer.SelectedNode as ComputerNode;
+                this.ShowComputerPanel(node.ComputerPanel);
             }
         }
         #endregion
@@ -65,6 +73,10 @@ namespace SysTool.Forms {
         }
         private void SubmitSearch(string searchTerm) {
             if (string.IsNullOrWhiteSpace(searchTerm)) return;
+        }
+        private void ShowComputerPanel(ComputerPanel panel) {
+            this.UserInputComboBox.SelectedItem = panel.Computer;
+            this.MainSplitContainer.Panel2.Controls.Add(panel);
         }
         #endregion
     }

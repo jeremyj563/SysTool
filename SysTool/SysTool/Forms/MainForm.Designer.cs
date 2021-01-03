@@ -60,8 +60,8 @@ namespace SysTool.Forms {
             // 
             // MainSplitContainer
             // 
-            this.MainSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.MainSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainSplitContainer.Location = new System.Drawing.Point(2, 53);
             this.MainSplitContainer.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -109,11 +109,12 @@ namespace SysTool.Forms {
             treeNode8});
             this.ResourceExplorer.Size = new System.Drawing.Size(323, 817);
             this.ResourceExplorer.TabIndex = 0;
+            this.ResourceExplorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ResourceExplorer_AfterSelect);
             // 
             // UserInputComboBox
             // 
             this.UserInputComboBox.AllowDrop = true;
-            this.UserInputComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.UserInputComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UserInputComboBox.FormattingEnabled = true;
             this.UserInputComboBox.Location = new System.Drawing.Point(143, 12);
