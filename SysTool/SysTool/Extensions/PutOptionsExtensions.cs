@@ -16,11 +16,11 @@ namespace SysTool.Extensions {
         }
 
         private static ManagementNamedValueCollection NewPutOptionsContext(string[] updatedProperties) {
-            var context = new ManagementNamedValueCollection();
-            context.Add("__PUT_EXT_PROPERTIES", updatedProperties);
-            context.Add("__PUT_EXTENSIONS", true);
-            context.Add("__PUT_EXT_CLIENT_REQUEST", true);
-            return context;
+            return new ManagementNamedValueCollection {
+                { "__PUT_EXT_PROPERTIES", updatedProperties },
+                { "__PUT_EXTENSIONS", true },
+                { "__PUT_EXT_CLIENT_REQUEST", true }
+            };
         }
     }
 }

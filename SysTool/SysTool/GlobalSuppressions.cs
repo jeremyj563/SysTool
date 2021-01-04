@@ -32,3 +32,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Extensions.ObjectExtensions.PropertiesContain(System.Object,System.String,System.StringComparison)~System.Boolean")]
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>", Scope = "member", Target = "~P:SysTool.Models.Computer.ds_computer")]
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Models.Computer.#ctor(SysTool.Models.WMI.ds_computer)")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.SplashForm.this_MouseDown(System.Object,System.Windows.Forms.MouseEventArgs)")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.SplashForm.this_MouseMove(System.Object,System.Windows.Forms.MouseEventArgs)")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.SplashForm.this_MouseUp(System.Object,System.Windows.Forms.MouseEventArgs)")]

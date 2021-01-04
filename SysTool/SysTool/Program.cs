@@ -40,7 +40,6 @@ namespace SysTool {
             mainForm.Shown += (s, e) => splashForm.Close();
             await mainForm.InitializeAsync();
             mainForm.Show();
-
         }
 
         private static async void HandleExceptions(Task task) {
