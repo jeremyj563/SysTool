@@ -79,7 +79,16 @@ namespace SysTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured connecting to the remote computer.
+        ///   Looks up a localized string similar to Checking connection state.
+        /// </summary>
+        internal static string ConnectionCheck {
+            get {
+                return ResourceManager.GetString("ConnectionCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection error occured.
         /// </summary>
         internal static string ConnectionError {
             get {
@@ -88,7 +97,7 @@ namespace SysTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer connection speed is excellent.
+        ///   Looks up a localized string similar to Connection state is excellent.
         /// </summary>
         internal static string ConnectionGood {
             get {
@@ -97,7 +106,7 @@ namespace SysTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer responded to ping request.
+        ///   Looks up a localized string similar to Computer responded to ping.
         /// </summary>
         internal static string PingResponse {
             get {

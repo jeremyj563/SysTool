@@ -1,4 +1,6 @@
 ﻿
+using System.Windows.Forms;
+
 namespace SysTool.UserControls {
     partial class PanelBase {
         /// <summary> 
@@ -24,13 +26,12 @@ namespace SysTool.UserControls {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            //components = new System.ComponentModel.Container();
             this.SplitContainer = new System.Windows.Forms.SplitContainer();
+            this.StatusTextBox = new System.Windows.Forms.RichTextBox();
             this.SplitContainer.BeginInit();
             this.SplitContainer.Panel2.SuspendLayout();
             this.SplitContainer.SuspendLayout();
             this.SuspendLayout();
-            this.StatusTextBox = new System.Windows.Forms.RichTextBox();
             //
             // SplitContainer
             //
@@ -58,7 +59,7 @@ namespace SysTool.UserControls {
             //
             // TabPanelControl
             //
-            this.AutoScaleDimensions = new System.Drawing.SizeF((float)6.0, (float)13.0);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.SplitContainer);

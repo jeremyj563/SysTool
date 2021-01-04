@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using SysTool.Enums;
 using SysTool.Models;
 using SysTool.Properties;
@@ -15,6 +16,7 @@ namespace SysTool.UserControls {
         #region Public Properties
         public Computer Computer { get; }
         public ConnectionState ConnectionState { get; private set; }
+        public bool Initialized { get; private set; }
         #endregion
 
         #region Constructors
@@ -26,12 +28,14 @@ namespace SysTool.UserControls {
 
         #region Public Methods
         public async Task InitializeAsync() {
+            this.Initialized = true;
             await this.SetConnectionState();
         }
         #endregion
 
         #region Private Methods
         private async Task SetConnectionState() {
+            base.WriteStatusMessage(StatusMessages.ConnectionCheck);
             if (await this.Computer.TestOnlineAsync()) {
                 this.ConnectionState = ConnectionState.Online;
                 base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);

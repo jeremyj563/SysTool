@@ -123,13 +123,16 @@
   <data name="ComputerOnline" xml:space="preserve">
     <value>Computer has come online</value>
   </data>
+  <data name="ConnectionCheck" xml:space="preserve">
+    <value>Checking connection state</value>
+  </data>
   <data name="ConnectionError" xml:space="preserve">
-    <value>An error occured connecting to the remote computer</value>
+    <value>Connection error occured</value>
   </data>
   <data name="ConnectionGood" xml:space="preserve">
-    <value>Computer connection speed is excellent</value>
+    <value>Connection state is excellent</value>
   </data>
   <data name="PingResponse" xml:space="preserve">
-    <value>Computer responded to ping request</value>
+    <value>Computer responded to ping</value>
   </data>
 </root>

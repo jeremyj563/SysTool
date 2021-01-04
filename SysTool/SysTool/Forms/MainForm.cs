@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Controls;
+using SysTool.Extensions;
 using SysTool.Models;
 using SysTool.Repositories;
 using SysTool.UserControls;
@@ -34,7 +35,8 @@ namespace SysTool.Forms {
             this.AcceptButton = null;
             var comboBox = this.UserInputComboBox;
             if (comboBox.SelectedItem is Computer) {
-                this.ResourceExplorer.AddComputerNode(comboBox.SelectedItem as Computer);
+                var node = this.ComputerNodeFactory();
+                this.ResourceExplorer.AddComputerNode(node);
             } else {
                 this.SubmitSearch(comboBox.Text);
             }
@@ -42,7 +44,7 @@ namespace SysTool.Forms {
         private void ResourceExplorer_AfterSelect(object sender, TreeViewEventArgs e) {
             if (this.ResourceExplorer.SelectedNode.Parent == this.ResourceExplorer.ComputersNode) {
                 var node = this.ResourceExplorer.SelectedNode as ComputerNode;
-                this.ShowComputerPanel(node.ComputerPanel);
+                this.AddComputerPanel(node.ComputerPanel);
             }
         }
         #endregion
@@ -68,11 +70,20 @@ namespace SysTool.Forms {
         private void SubmitSearch(string searchTerm) {
             if (string.IsNullOrWhiteSpace(searchTerm)) return;
         }
-        private async void ShowComputerPanel(ComputerPanel panel) {
+        private ComputerNode ComputerNodeFactory() {
+            var computer = this.UserInputComboBox.SelectedItem as Computer;
+            var panel = new ComputerPanel(computer);
+            var node = new ComputerNode(computer.Display, computer.Value, panel);
+            return node;
+        }
+        private async void AddComputerPanel(ComputerPanel panel) {
             this.UserInputComboBox.SelectedItem = panel.Computer;
             this.MainSplitContainer.Panel2.Controls.Clear();
             this.MainSplitContainer.Panel2.Controls.Add(panel);
-            await panel.InitializeAsync();
+            panel.SizeToParent();
+            if (!panel.Initialized) {
+                await panel.InitializeAsync();
+            }
         }
         #endregion
     }

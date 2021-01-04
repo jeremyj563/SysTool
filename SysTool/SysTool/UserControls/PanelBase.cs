@@ -22,8 +22,16 @@ namespace SysTool.UserControls {
         }
         #endregion
 
-        #region Private Methods
-        public void WriteStatusMessage(string text, Color color = default) {
+        #region Public Methods
+        public void SizeToParent() {
+            this.Height = this.Parent.Height;
+            this.Width = this.Parent.Width;
+            this.Anchor = (AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
+        }
+        #endregion
+
+        #region Protected Methods
+        protected void WriteStatusMessage(string text, Color color = default) {
             if (text == null) return;
             if (color == default) color = Color.Black;
             var message = $"({DateTime.Now}): {text}{Environment.NewLine}";

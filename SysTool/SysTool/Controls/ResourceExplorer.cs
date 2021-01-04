@@ -19,19 +19,18 @@ namespace SysTool.Controls {
         public TreeNode ComputersNode => this.RootNodes[nameof(Node.Computers)];
         public TreeNodeCollection ComputerNodes => this.ComputersNode.Nodes;
 
-        public void AddComputerNode(Computer computer) {
-            if (computer == null) return;
-            if (this.FindComputerNode(computer) == null) {
-                var panel = new ComputerPanel(computer);
-                var node = new ComputerNode(computer.Display, computer.Value, panel);
+        public void AddComputerNode(ComputerNode node) {
+            if (node == null) return;
+            if (this.FindComputerNode(node) == null) {
                 this.ComputerNodes.Add(node);
                 this.SelectedNode = node;
             }
         }
 
-        public TreeNode FindComputerNode(Computer computer) {
-            if (computer == null) return null;
-            var nodes = this.ComputerNodes.Find(computer.Value, false);
+        public TreeNode FindComputerNode(ComputerNode node) {
+            if (node == null) return null;
+            var key = node.ComputerPanel.Computer.Value;
+            var nodes = this.ComputerNodes.Find(key, false);
             return nodes.SingleOrDefault();
         }
     }
