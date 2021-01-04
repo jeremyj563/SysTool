@@ -9,9 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Controls;
-using SysTool.Extensions;
 using SysTool.Models;
-using SysTool.Models.WMI;
 using SysTool.Repositories;
 using SysTool.UserControls;
 
@@ -31,10 +29,6 @@ namespace SysTool.Forms {
         #region Public Events
         private async void MainForm_Load(object sender, EventArgs e) {
             InitializeUserInputComboBox();
-
-            //var computers = this.ComputerRepository.Get();
-            //var computer_matches = this.ComputerRepository.Where(c => c.PropertiesContain("jer"));
-            //var online_computers = await this.ComputerRepository.WhereAsync(c => c.TestOnlineAsync());
         }
         private void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;
@@ -74,9 +68,11 @@ namespace SysTool.Forms {
         private void SubmitSearch(string searchTerm) {
             if (string.IsNullOrWhiteSpace(searchTerm)) return;
         }
-        private void ShowComputerPanel(ComputerPanel panel) {
+        private async void ShowComputerPanel(ComputerPanel panel) {
             this.UserInputComboBox.SelectedItem = panel.Computer;
+            this.MainSplitContainer.Panel2.Controls.Clear();
             this.MainSplitContainer.Panel2.Controls.Add(panel);
+            await panel.InitializeAsync();
         }
         #endregion
     }

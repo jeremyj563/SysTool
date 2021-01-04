@@ -70,8 +70,8 @@ namespace SysTool.UserControls {
             this.ResumeLayout(false);
         }
 
-        private System.Windows.Forms.SplitContainer SplitContainer;
-        private System.Windows.Forms.RichTextBox StatusTextBox;
+        protected System.Windows.Forms.SplitContainer SplitContainer;
+        protected System.Windows.Forms.RichTextBox StatusTextBox;
 
         #endregion
     }
