@@ -30,15 +30,9 @@ namespace SysTool.Forms {
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Task");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Query");
             System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Results");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Resource Explorer", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4,
-            treeNode5});
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Resource Explorer", new System.Windows.Forms.TreeNode[] { treeNode1, treeNode2, treeNode3, treeNode4, treeNode5 });
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Custom Actions");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Settings", new System.Windows.Forms.TreeNode[] {
-            treeNode7});
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Settings", new System.Windows.Forms.TreeNode[] { treeNode7 });
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.ResourceExplorer = new SysTool.Controls.ResourceExplorer();
             this.UserInputComboBox = new System.Windows.Forms.ComboBox();
@@ -52,7 +46,7 @@ namespace SysTool.Forms {
             this.CpuUsageStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ConnectionsStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.DateTimeStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).BeginInit();
+            this.MainSplitContainer.BeginInit();
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
             this.StatusStrip1.SuspendLayout();
@@ -60,9 +54,7 @@ namespace SysTool.Forms {
             // 
             // MainSplitContainer
             // 
-            this.MainSplitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.MainSplitContainer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             this.MainSplitContainer.Location = new System.Drawing.Point(2, 53);
             this.MainSplitContainer.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MainSplitContainer.Name = "MainSplitContainer";
@@ -114,8 +106,7 @@ namespace SysTool.Forms {
             // UserInputComboBox
             // 
             this.UserInputComboBox.AllowDrop = true;
-            this.UserInputComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UserInputComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.UserInputComboBox.FormattingEnabled = true;
             this.UserInputComboBox.Location = new System.Drawing.Point(143, 12);
             this.UserInputComboBox.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -135,7 +126,7 @@ namespace SysTool.Forms {
             // 
             // SubmitButton
             // 
-            this.SubmitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SubmitButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             this.SubmitButton.Location = new System.Drawing.Point(1019, 9);
             this.SubmitButton.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.SubmitButton.Name = "SubmitButton";
@@ -147,7 +138,7 @@ namespace SysTool.Forms {
             // 
             // ClearButton
             // 
-            this.ClearButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ClearButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             this.ClearButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ClearButton.Location = new System.Drawing.Point(1128, 9);
             this.ClearButton.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -159,7 +150,7 @@ namespace SysTool.Forms {
             // 
             // NewButton
             // 
-            this.NewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NewButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             this.NewButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.NewButton.Location = new System.Drawing.Point(1237, 9);
             this.NewButton.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
@@ -172,12 +163,7 @@ namespace SysTool.Forms {
             // StatusStrip1
             // 
             this.StatusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.UpTimeStatusLabel,
-            this.MemoryUsageStatusLabel,
-            this.CpuUsageStatusLabel,
-            this.ConnectionsStatusLabel,
-            this.DateTimeStatusLabel});
+            this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.UpTimeStatusLabel, this.MemoryUsageStatusLabel, this.CpuUsageStatusLabel, this.ConnectionsStatusLabel, this.DateTimeStatusLabel });
             this.StatusStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.StatusStrip1.Location = new System.Drawing.Point(0, 883);
             this.StatusStrip1.Name = "StatusStrip1";
@@ -237,7 +223,7 @@ namespace SysTool.Forms {
             this.Text = "SysTool";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.MainSplitContainer.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
+            this.MainSplitContainer.EndInit();
             this.MainSplitContainer.ResumeLayout(false);
             this.StatusStrip1.ResumeLayout(false);
             this.StatusStrip1.PerformLayout();
