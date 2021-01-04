@@ -22,13 +22,6 @@ namespace SysTool.UserControls {
         }
         #endregion
 
-        #region Public Methods
-        public void SizeToParent() {
-            this.Height = this.Parent.Height;
-            this.Width = this.Parent.Width;
-        }
-        #endregion
-
         #region Protected Methods
         protected void WriteStatusMessage(string text, Color color = default) {
             if (text == null) return;

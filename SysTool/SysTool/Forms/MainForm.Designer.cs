@@ -58,7 +58,7 @@ namespace SysTool.Forms {
             this.MainSplitContainer.Location = new System.Drawing.Point(2, 53);
             this.MainSplitContainer.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MainSplitContainer.Name = "MainSplitContainer";
-            this.MainSplitContainer.Size = new System.Drawing.Size(1350, 817);
+            this.MainSplitContainer.Size = new System.Drawing.Size(1350, 760);
             this.MainSplitContainer.SplitterDistance = 323;
             this.MainSplitContainer.SplitterWidth = 6;
             this.MainSplitContainer.TabIndex = 0;
