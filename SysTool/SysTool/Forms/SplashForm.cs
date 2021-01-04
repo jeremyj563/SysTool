@@ -12,7 +12,7 @@ namespace SysTool.Forms {
 
         #region Constructors
         public SplashForm() {
-            InitializeComponent();
+            this.InitializeComponent();
         }
         #endregion
 

@@ -21,14 +21,14 @@ namespace SysTool.Forms {
 
         #region Constructors
         public MainForm(ComputerRepository computerRepository) {
-            InitializeComponent();
+            this.InitializeComponent();
             this.ComputerRepository = computerRepository;
         }
         #endregion
 
         #region Public Events
         private async void MainForm_Load(object sender, EventArgs e) {
-            InitializeUserInputComboBox();
+            this.InitializeUserInputComboBox();
         }
         private void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;

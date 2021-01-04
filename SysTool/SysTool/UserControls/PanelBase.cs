@@ -17,7 +17,7 @@ namespace SysTool.UserControls {
 
         #region Constructors
         public PanelBase(IDataUnit dataUnit) {
-            InitializeComponent();
+            this.InitializeComponent();
             this.DataUnit = dataUnit;
         }
         #endregion
