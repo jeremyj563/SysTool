@@ -26,7 +26,6 @@ namespace SysTool.UserControls {
         public void SizeToParent() {
             this.Height = this.Parent.Height;
             this.Width = this.Parent.Width;
-            this.Anchor = (AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right);
         }
         #endregion
 

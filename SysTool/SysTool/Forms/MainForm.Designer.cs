@@ -58,6 +58,10 @@ namespace SysTool.Forms {
             this.MainSplitContainer.Location = new System.Drawing.Point(2, 53);
             this.MainSplitContainer.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.MainSplitContainer.Name = "MainSplitContainer";
+            this.MainSplitContainer.Size = new System.Drawing.Size(1350, 817);
+            this.MainSplitContainer.SplitterDistance = 323;
+            this.MainSplitContainer.SplitterWidth = 6;
+            this.MainSplitContainer.TabIndex = 0;
             // 
             // MainSplitContainer.Panel1
             // 
@@ -67,10 +71,6 @@ namespace SysTool.Forms {
             // 
             this.MainSplitContainer.Panel2.BackColor = System.Drawing.Color.White;
             this.MainSplitContainer.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.MainSplitContainer.Size = new System.Drawing.Size(1350, 817);
-            this.MainSplitContainer.SplitterDistance = 323;
-            this.MainSplitContainer.SplitterWidth = 6;
-            this.MainSplitContainer.TabIndex = 0;
             // 
             // ResourceExplorer
             // 
@@ -96,9 +96,7 @@ namespace SysTool.Forms {
             treeNode7.Text = "Custom Actions";
             treeNode8.Name = "Settings";
             treeNode8.Text = "Settings";
-            this.ResourceExplorer.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode6,
-            treeNode8});
+            this.ResourceExplorer.Nodes.AddRange(new System.Windows.Forms.TreeNode[] { treeNode6, treeNode8 });
             this.ResourceExplorer.Size = new System.Drawing.Size(323, 817);
             this.ResourceExplorer.TabIndex = 0;
             this.ResourceExplorer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.ResourceExplorer_AfterSelect);

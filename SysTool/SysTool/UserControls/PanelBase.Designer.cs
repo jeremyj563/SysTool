@@ -39,13 +39,12 @@ namespace SysTool.UserControls {
             this.SplitContainer.Location = new System.Drawing.Point(0, 0);
             this.SplitContainer.Name = "SplitContainer";
             this.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.SplitContainer.SplitterDistance = 900;
+            this.SplitContainer.TabIndex = 0;
             //
             // SplitContainer.Panel2
             //
             this.SplitContainer.Panel2.Controls.Add(this.StatusTextBox);
-            this.SplitContainer.Size = new System.Drawing.Size(648, 483);
-            this.SplitContainer.SplitterDistance = 418;
-            this.SplitContainer.TabIndex = 0;
             //
             // StatusTextBox
             //
@@ -53,7 +52,6 @@ namespace SysTool.UserControls {
             this.StatusTextBox.Location = new System.Drawing.Point(0, 0);
             this.StatusTextBox.Name = "StatusTextBox";
             this.StatusTextBox.ReadOnly = true;
-            this.StatusTextBox.Size = new System.Drawing.Size(648, 61);
             this.StatusTextBox.TabIndex = 0;
             this.StatusTextBox.Text = "";
             //
@@ -64,7 +62,9 @@ namespace SysTool.UserControls {
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.SplitContainer);
             this.Name = "TabPanelControl";
-            this.Size = new System.Drawing.Size(648, 483);
+            this.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Size = new System.Drawing.Size(1027, 817);
+            this.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.SplitContainer.Panel2.ResumeLayout(false);
             this.SplitContainer.EndInit();
             this.SplitContainer.ResumeLayout(false);
