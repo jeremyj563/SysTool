@@ -14,6 +14,10 @@ namespace SysTool.Repositories {
             this.Scope = new ManagementScope(path);
         }
 
+        // TODO: implement Task-based Asynchronous Pattern (TAP) around WMI using ManagementOperationObserver
+        // https://docs.microsoft.com/en-us/mem/configmgr/develop/core/clients/programming/how-to-perform-an-asynchronous-query-by-using-system.management
+        // https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap
+
         public List<T> Get<T>(string className = default, string condition = default)
             where T : WMIBase, new() {
             if (className == default) className = typeof(T).Name;
