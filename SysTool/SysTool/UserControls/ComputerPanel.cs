@@ -16,20 +16,12 @@ namespace SysTool.UserControls {
         #region Public Properties
         public Computer Computer { get; }
         public ConnectionState ConnectionState { get; private set; }
-        public bool Initialized { get; private set; }
         #endregion
 
         #region Constructors
         public ComputerPanel(Computer computer)
             : base(computer) {
             this.Computer = computer;
-        }
-        #endregion
-
-        #region Public Methods
-        public async Task InitializeAsync() {
-            this.Initialized = true;
-            await this.SetConnectionState();
         }
         #endregion
 
@@ -42,6 +34,15 @@ namespace SysTool.UserControls {
             } else {
                 this.ConnectionState = ConnectionState.Offline;
                 base.WriteStatusMessage(StatusMessages.ComputerOffline, Color.Red);
+            }
+        }
+        #endregion
+
+        #region Overridden Methods
+        protected async override void OnLoad(EventArgs e) {
+            if (base.Loaded == false) {
+                base.OnLoad(e);
+                await this.SetConnectionState();
             }
         }
         #endregion

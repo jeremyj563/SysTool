@@ -80,9 +80,6 @@ namespace SysTool.Forms {
             this.UserInputComboBox.SelectedItem = panel.Computer;
             this.MainSplitContainer.Panel2.Controls.Clear();
             this.MainSplitContainer.Panel2.Controls.Add(panel);
-            if (!panel.Initialized) {
-                await panel.InitializeAsync();
-            }
         }
         #endregion
     }

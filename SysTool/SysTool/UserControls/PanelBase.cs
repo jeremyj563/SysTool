@@ -12,6 +12,7 @@ using SysTool.Models;
 namespace SysTool.UserControls {
     public partial class PanelBase : UserControl {
         #region Public Properties
+        public bool Loaded { get; private set; }
         public IDataUnit DataUnit { get; }
         #endregion
 
@@ -31,6 +32,15 @@ namespace SysTool.UserControls {
             this.StatusTextBox.SelectionColor = color;
             this.StatusTextBox.AppendText(message);
             this.StatusTextBox.ScrollToCaret();
+        }
+        #endregion
+
+        #region Overridden Methods
+        protected override void OnLoad(EventArgs e) {
+            if (this.Loaded == false) {
+                base.OnLoad(e);
+                this.Loaded = true;
+            }
         }
         #endregion
     }
