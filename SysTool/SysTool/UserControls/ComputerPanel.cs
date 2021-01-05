@@ -16,6 +16,7 @@ namespace SysTool.UserControls {
         #region Public Properties
         public Computer Computer { get; }
         public ConnectionState ConnectionState { get; private set; }
+        public UserStatus UserStatus { get; private set; }
         #endregion
 
         #region Constructors
@@ -26,15 +27,18 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Private Methods
-        private async Task SetConnectionState() {
+        private async Task<ConnectionState> GetConnectionState() {
             base.WriteStatusMessage(StatusMessages.ConnectionCheck);
             if (await this.Computer.TestOnlineAsync()) {
-                this.ConnectionState = ConnectionState.Online;
                 base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);
+                return ConnectionState.Online;
             } else {
-                this.ConnectionState = ConnectionState.Offline;
                 base.WriteStatusMessage(StatusMessages.ComputerOffline, Color.Red);
+                return ConnectionState.Offline;
             }
+        }
+        private async Task<UserStatus> GetUserStatus() {
+            throw new System.NotImplementedException();
         }
         #endregion
 
@@ -42,7 +46,8 @@ namespace SysTool.UserControls {
         protected async override void OnLoad(EventArgs e) {
             if (base.Loaded == false) {
                 base.OnLoad(e);
-                await this.SetConnectionState();
+                this.ConnectionState = await this.GetConnectionState();
+                //this.UserStatus = await this.GetUserStatus();
             }
         }
         #endregion

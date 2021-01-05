@@ -2,6 +2,6 @@
 
 namespace SysTool.Attributes {
     [AttributeUsage(AttributeTargets.Property)]
-    public class WritableAttribute : Attribute {
+    public class WMIWritableAttribute : Attribute {
     }
 }

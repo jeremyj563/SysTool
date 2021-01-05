@@ -31,12 +31,14 @@ namespace SysTool.Forms {
         private async void MainForm_Load(object sender, EventArgs e) {
             this.InitializeUserInputComboBox();
         }
-        private void SubmitButton_Click(object sender, EventArgs e) {
+        private async void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;
             var comboBox = this.UserInputComboBox;
             if (comboBox.SelectedItem is Computer) {
-                var node = this.ComputerNodeFactory();
+                var computer = comboBox.SelectedItem as Computer;
+                var node = this.NewComputerNode(computer);
                 this.ResourceExplorer.AddComputerNode(node);
+                await Task.Run(computer.Initialize);
             } else {
                 this.SubmitSearch(comboBox.Text);
             }
@@ -51,7 +53,7 @@ namespace SysTool.Forms {
 
         #region Public Methods
         public async Task InitializeAsync() {
-            await Task.Run(() => this.ComputerRepository.Initialize());
+            await Task.Run(this.ComputerRepository.Initialize);
         }
         #endregion
 
@@ -70,13 +72,12 @@ namespace SysTool.Forms {
         private void SubmitSearch(string searchTerm) {
             if (string.IsNullOrWhiteSpace(searchTerm)) return;
         }
-        private ComputerNode ComputerNodeFactory() {
-            var computer = this.UserInputComboBox.SelectedItem as Computer;
+        private ComputerNode NewComputerNode(Computer computer) {
             var panel = new ComputerPanel(computer);
             var node = new ComputerNode(computer.Display, computer.Value, panel);
             return node;
         }
-        private async void AddComputerPanel(ComputerPanel panel) {
+        private void AddComputerPanel(ComputerPanel panel) {
             this.UserInputComboBox.SelectedItem = panel.Computer;
             this.MainSplitContainer.Panel2.Controls.Clear();
             this.MainSplitContainer.Panel2.Controls.Add(panel);

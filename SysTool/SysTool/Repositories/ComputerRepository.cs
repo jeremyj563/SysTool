@@ -10,18 +10,16 @@ using SysTool.Models.WMI;
 namespace SysTool.Repositories {
     public class ComputerRepository {
         public BindingSource BindingSource { get; } = new BindingSource();
-        private WMIRepository WMI { get; }
+        private WMIRepository LocalWMI_LDAP { get; }
         private List<Computer> Computers => this.BindingSource.AsList<Computer>();
 
-        public ComputerRepository(WMIRepository wmi) {
-            this.WMI = wmi;
+        public ComputerRepository(WMIRepository localWMI_LDAP) {
+            this.LocalWMI_LDAP = localWMI_LDAP;
         }
 
         public void Initialize() {
-            var computers = this.WMI
-                .Get<ds_computer>()
-                .Select(d => new Computer(ds_computer: d))
-                .ToList();
+            var computers = this.LocalWMI_LDAP.Get<ds_computer>()
+                .Select(d => new Computer(d, new WMIRepository(@$"\\{d.DS_name}\root\cimv2")));
             this.BindingSource.DataSource = computers;
         }
 

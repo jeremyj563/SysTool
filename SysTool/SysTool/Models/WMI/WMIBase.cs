@@ -16,7 +16,7 @@ namespace SysTool.Models.WMI {
             this.WritableProperties = this.GetType()
                 .GetWritableProperties()
                 .Where(p => Attribute.IsDefined(p, typeof(WMIPropertyAttribute)))
-                .Where(p => Attribute.IsDefined(p, typeof(WritableAttribute)));
+                .Where(p => Attribute.IsDefined(p, typeof(WMIWritableAttribute)));
         }
 
         public void Save() {

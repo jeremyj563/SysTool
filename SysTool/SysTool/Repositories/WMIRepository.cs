@@ -10,8 +10,8 @@ namespace SysTool.Repositories {
     public class WMIRepository {
         private ManagementScope Scope { get; set; }
 
-        public WMIRepository(string scope) {
-            this.Scope = new ManagementScope(scope);
+        public WMIRepository(string path) {
+            this.Scope = new ManagementScope(path);
         }
 
         public List<T> Get<T>(string className = default, string condition = default)
