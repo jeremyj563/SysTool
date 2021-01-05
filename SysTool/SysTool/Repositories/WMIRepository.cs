@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management;
 using SysTool.Attributes;
 using SysTool.Extensions;
@@ -39,7 +41,8 @@ namespace SysTool.Repositories {
         private static T NewInstance<T>(ManagementObject @object)
             where T : WMIBase, new() {
             var instance = new T() { ManagementObject = @object };
-            var properties = typeof(T).GetWritableProperties<WMIPropertyAttribute>();
+            var properties = typeof(T).GetWritableProperties()
+                .Where(p => Attribute.IsDefined(p, typeof(WMIPropertyAttribute)));
 
             foreach (var property in properties) {
                 var name = property.Name;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Reflection;
@@ -13,14 +14,14 @@ namespace SysTool.Models.WMI {
 
         public WMIBase() {
             this.WritableProperties = this.GetType()
-                .GetWritableProperties<WMIPropertyAttribute, WritableAttribute>();
+                .GetWritableProperties()
+                .Where(p => Attribute.IsDefined(p, typeof(WMIPropertyAttribute)))
+                .Where(p => Attribute.IsDefined(p, typeof(WritableAttribute)));
         }
 
         public void Save() {
             if (!this.WritableProperties.Any()) return;
-
             UpdatePropertyValues();
-
             var options = new PutOptions();
             options.UseDefaultUpdateOptions(this.WritableProperties);
             Save(options);
