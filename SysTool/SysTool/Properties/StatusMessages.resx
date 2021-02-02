@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ComputerOffline" xml:space="preserve">
-    <value>Computer has gone offline</value>
+    <value>Computer is offline</value>
   </data>
   <data name="ComputerOnline" xml:space="preserve">
-    <value>Computer has come online</value>
+    <value>Computer is online</value>
   </data>
   <data name="ConnectionCheck" xml:space="preserve">
     <value>Checking connection state</value>

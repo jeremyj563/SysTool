@@ -61,7 +61,7 @@ namespace SysTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer has gone offline.
+        ///   Looks up a localized string similar to Computer is offline.
         /// </summary>
         internal static string ComputerOffline {
             get {
@@ -70,7 +70,7 @@ namespace SysTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Computer has come online.
+        ///   Looks up a localized string similar to Computer is online.
         /// </summary>
         internal static string ComputerOnline {
             get {

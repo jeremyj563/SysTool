@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Enums;
 using SysTool.Models;
+using SysTool.Models.WMI;
 using SysTool.Properties;
 
 namespace SysTool.UserControls {
@@ -27,34 +28,48 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Private Methods
-        private async Task<ConnectionState> GetConnectionStateAsync() {
+        private async Task SetConnectionStateAsync() {
             base.WriteStatusMessage(StatusMessages.ConnectionCheck);
-            if (await this.Computer.TestOnlineAsync()) {
-                base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);
-                return ConnectionState.Online;
-            } else {
+            if (await this.Computer.TestOnlineAsync() == false) {
                 base.WriteStatusMessage(StatusMessages.ComputerOffline, Color.Red);
-                return ConnectionState.Offline;
+                this.ConnectionState = ConnectionState.Offline;
+                return;
+            }
+            base.WriteStatusMessage(StatusMessages.PingResponse, Color.Green);
+            base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);
+            await TestResponseTime();
+        }
+        private async Task TestResponseTime() {
+            var status = await this.Computer.WMI.GetPingStatusAsync(this.Computer.Value);
+            if (status.ResponseTime < 10) {
+                base.WriteStatusMessage(StatusMessages.ConnectionGood, Color.Green);
+                this.ConnectionState = ConnectionState.Online;
+            } else {
+                base.WriteStatusMessage(StatusMessages.ConnectionPoor, Color.Magenta);
+                this.ConnectionState = ConnectionState.OnlineSlow;
             }
         }
-        private async Task TestConnectionStateAsync() {
-            if (this.ConnectionState == ConnectionState.Offline) return;
-
-        }
-        private async Task<UserStatus> GetUserStatusAsync() {
-            throw new System.NotImplementedException();
+        private async Task SetUserStatusAsync() {
+            var explorer = await this.Computer.WMI.GetProcessAsync("explorer.exe");
+            if (explorer?.Name == "explorer.exe") {
+                var logonUI = await this.Computer.WMI.GetProcessAsync("logonui.exe");
+                if (logonUI?.Name == "logonui.exe") {
+                    this.UserStatus = UserStatus.Inactive;
+                } else {
+                    this.UserStatus = UserStatus.Active;
+                }
+            } else {
+                this.UserStatus = UserStatus.None;
+            }
         }
         #endregion
 
-        #region Overridden Methods
+        #region Event Handlers
         protected async override void OnLoad(EventArgs e) {
             if (base.Loaded) return;
             base.OnLoad(e);
-            this.ConnectionState = await this.GetConnectionStateAsync();
-            if (this.ConnectionState != ConnectionState.Offline) {
-                await this.TestConnectionStateAsync();
-                //this.UserStatus = await this.GetUserStatus();
-            }
+            await this.SetConnectionStateAsync();
+            await this.SetUserStatusAsync();
         }
         #endregion
     }

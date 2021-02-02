@@ -28,12 +28,8 @@ namespace SysTool.Models {
         #endregion
 
         #region Public Methods
-        public void Initialize() {
-            if (this.TestOnline()) {
-                //this.Win32_PingStatuses = await this.WMI.GetAsync<Win32_PingStatus>();
-                //this.Win32_Processes = await this.WMI.GetAsync<Win32_Process>();
-                //this.Win32_PingStatuses = this.WMI.Get<Win32_PingStatus>();
-                this.Win32_Processes = this.WMI.Get<Win32_Process>();
+        public async Task InitializeAsync() {
+            if (await this.TestOnlineAsync()) {
             }
         }
         public bool TestOnline(int timeout = 250) {

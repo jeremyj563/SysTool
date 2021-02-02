@@ -25,25 +25,58 @@ namespace SysTool.Repositories {
         }
         #endregion
 
-        #region Public Methods
+        #region Repository Methods
+        public Task<Win32_PingStatus> GetPingStatusAsync(string address) {
+            var condition = $"Address='{address}'";
+            return this.GetOneAsync<Win32_PingStatus>(condition);
+        }
+        public Task<Win32_Process> GetProcessAsync(string name) {
+            var condition = $"Name='{name}'";
+            return this.GetOneAsync<Win32_Process>(condition);
+        }
+        #endregion
+
+        #region Generic Methods
+        public T GetOne<T>(string condition)
+            where T : WMIBase, new() {
+            if (string.IsNullOrWhiteSpace(condition)) return default;
+            return this.GetOne<T>(default, condition);
+        }
+        public Task<T> GetOneAsync<T>(string condition)
+            where T : WMIBase, new() {
+            if (string.IsNullOrWhiteSpace(condition)) return default;
+            return this.GetOneAsync<T>(default, condition);
+        }
+        public T GetOne<T>(string className = default, string condition = default)
+            where T : WMIBase, new() {
+            if (className == default) className = typeof(T).Name;
+            var query = new SelectQuery(className, condition);
+            return this.Query<T>(query).SingleOrDefault();
+        }
+        public async Task<T> GetOneAsync<T>(string className = default, string condition = default)
+            where T : WMIBase, new() {
+            if (className == default) className = typeof(T).Name;
+            var query = new SelectQuery(className, condition);
+            return (await this.QueryAsync<T>(query)).SingleOrDefault();
+        }
         public List<T> Get<T>(string className = default, string condition = default)
             where T : WMIBase, new() {
             if (className == default) className = typeof(T).Name;
-            return this.Query<T>(className, condition);
+            var query = new SelectQuery(className, condition);
+            return this.Query<T>(query);
         }
         public Task<List<T>> GetAsync<T>(string className = default, string condition = default)
             where T : WMIBase, new() {
             if (className == default) className = typeof(T).Name;
-            return this.QueryAsync<T>(className, condition);
+            var query = new SelectQuery(className, condition);
+            return this.QueryAsync<T>(query);
         }
         #endregion
 
         #region Private Methods
-        private List<T> Query<T>(string className, string condition)
+        private List<T> Query<T>(SelectQuery query)
             where T : WMIBase, new() {
             var instances = new List<T>();
-            var query = new SelectQuery(className, condition);
-
             using (var searcher = new ManagementObjectSearcher(this.Scope, query)) {
                 foreach (ManagementObject @object in searcher.Get()) {
                     using (@object) {
@@ -53,10 +86,9 @@ namespace SysTool.Repositories {
                     }
                 }
             }
-
             return instances;
         }
-        private Task<List<T>> QueryAsync<T>(string className, string condition)
+        private Task<List<T>> QueryAsync<T>(SelectQuery query)
             where T : WMIBase, new() {
             var tcs = new TaskCompletionSource<List<T>>();
             var instances = new List<T>();
@@ -71,7 +103,6 @@ namespace SysTool.Repositories {
                 tcs.TrySetResult(instances);
             });
             
-            var query = new SelectQuery(className, condition);
             using var searcher = new ManagementObjectSearcher(this.Scope, query);
             searcher.Get(observer);
 
