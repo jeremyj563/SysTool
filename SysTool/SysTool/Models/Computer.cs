@@ -4,15 +4,20 @@ using System.Threading.Tasks;
 using SysTool.Enums;
 using SysTool.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SysTool.Models {
     public class Computer : IDataUnit {
         #region Public Properties
-        public string Display { get { return $"{this.ds_computer.DS_description?[0] ?? "Unknown"}  >  {this.ds_computer.DS_name}"; } }
-        public string Value { get { return $"{this.ds_computer.DS_name}"; } }
-        public ds_computer ds_computer { get; }
-        public List<Win32_Process> Win32_Processes { get; private set; }
+        public string Display => $"{this.ds_computer.DS_description?[0] ?? "Unknown"}  >  {this.ds_computer.DS_name}";
+        public string Value => this.ds_computer.DS_name;
         public WMIRepository WMI { get; }
+        #endregion
+
+        #region Private Properties
+        private ds_computer ds_computer { get; }
+        private List<Win32_PingStatus> Win32_PingStatuses { get; set; }
+        private List<Win32_Process> Win32_Processes { get; set; }
         #endregion
 
         #region Constructors
@@ -25,6 +30,9 @@ namespace SysTool.Models {
         #region Public Methods
         public void Initialize() {
             if (this.TestOnline()) {
+                //this.Win32_PingStatuses = await this.WMI.GetAsync<Win32_PingStatus>();
+                //this.Win32_Processes = await this.WMI.GetAsync<Win32_Process>();
+                //this.Win32_PingStatuses = this.WMI.Get<Win32_PingStatus>();
                 this.Win32_Processes = this.WMI.Get<Win32_Process>();
             }
         }
@@ -51,12 +59,12 @@ namespace SysTool.Models {
                 return false;
             }
         }
+        public async Task<int> GetResponseTime() {
+            throw new System.NotImplementedException();
+        }
         public async Task<UserStatus> GetUserStatus() {
             throw new System.NotImplementedException();
         }
-        #endregion
-
-        #region Private Methods
         #endregion
     }
 }

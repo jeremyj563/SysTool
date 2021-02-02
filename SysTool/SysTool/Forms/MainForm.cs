@@ -36,8 +36,7 @@ namespace SysTool.Forms {
             var comboBox = this.UserInputComboBox;
             if (comboBox.SelectedItem is Computer) {
                 var computer = comboBox.SelectedItem as Computer;
-                var node = this.NewComputerNode(computer);
-                this.ResourceExplorer.AddComputerNode(node);
+                this.ResourceExplorer.NewComputerNode(computer);
                 await Task.Run(computer.Initialize);
             } else {
                 this.SubmitSearch(comboBox.Text);
@@ -53,7 +52,7 @@ namespace SysTool.Forms {
 
         #region Public Methods
         public async Task InitializeAsync() {
-            await Task.Run(this.ComputerRepository.Initialize);
+            await this.ComputerRepository.InitializeAsync();
         }
         #endregion
 
@@ -71,11 +70,6 @@ namespace SysTool.Forms {
         }
         private void SubmitSearch(string searchTerm) {
             if (string.IsNullOrWhiteSpace(searchTerm)) return;
-        }
-        private ComputerNode NewComputerNode(Computer computer) {
-            var panel = new ComputerPanel(computer);
-            var node = new ComputerNode(computer.Display, computer.Value, panel);
-            return node;
         }
         private void AddComputerPanel(ComputerPanel panel) {
             this.UserInputComboBox.SelectedItem = panel.Computer;

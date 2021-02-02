@@ -130,7 +130,10 @@
     <value>Connection error occured</value>
   </data>
   <data name="ConnectionGood" xml:space="preserve">
-    <value>Connection state is excellent</value>
+    <value>Connection state is good</value>
+  </data>
+  <data name="ConnectionPoor" xml:space="preserve">
+    <value>Connection state is poor</value>
   </data>
   <data name="PingResponse" xml:space="preserve">
     <value>Computer responded to ping</value>

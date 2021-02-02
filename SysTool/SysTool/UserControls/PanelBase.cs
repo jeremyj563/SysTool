@@ -25,7 +25,7 @@ namespace SysTool.UserControls {
 
         #region Protected Methods
         protected void WriteStatusMessage(string text, Color color = default) {
-            if (text == null) return;
+            if (string.IsNullOrWhiteSpace(text)) return;
             if (color == default) color = Color.Black;
             var message = $"({DateTime.Now}): {text}{Environment.NewLine}";
             this.StatusTextBox.SelectionStart = this.StatusTextBox.Text.Length;
@@ -37,10 +37,9 @@ namespace SysTool.UserControls {
 
         #region Overridden Methods
         protected override void OnLoad(EventArgs e) {
-            if (this.Loaded == false) {
-                base.OnLoad(e);
-                this.Loaded = true;
-            }
+            if (this.Loaded) return;
+            base.OnLoad(e);
+            this.Loaded = true;
         }
         #endregion
     }

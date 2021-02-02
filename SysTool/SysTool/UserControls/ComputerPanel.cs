@@ -27,7 +27,7 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Private Methods
-        private async Task<ConnectionState> GetConnectionState() {
+        private async Task<ConnectionState> GetConnectionStateAsync() {
             base.WriteStatusMessage(StatusMessages.ConnectionCheck);
             if (await this.Computer.TestOnlineAsync()) {
                 base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);
@@ -37,16 +37,22 @@ namespace SysTool.UserControls {
                 return ConnectionState.Offline;
             }
         }
-        private async Task<UserStatus> GetUserStatus() {
+        private async Task TestConnectionStateAsync() {
+            if (this.ConnectionState == ConnectionState.Offline) return;
+
+        }
+        private async Task<UserStatus> GetUserStatusAsync() {
             throw new System.NotImplementedException();
         }
         #endregion
 
         #region Overridden Methods
         protected async override void OnLoad(EventArgs e) {
-            if (base.Loaded == false) {
-                base.OnLoad(e);
-                this.ConnectionState = await this.GetConnectionState();
+            if (base.Loaded) return;
+            base.OnLoad(e);
+            this.ConnectionState = await this.GetConnectionStateAsync();
+            if (this.ConnectionState != ConnectionState.Offline) {
+                await this.TestConnectionStateAsync();
                 //this.UserStatus = await this.GetUserStatus();
             }
         }

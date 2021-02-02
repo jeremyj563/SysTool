@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Extensions;
@@ -17,15 +18,15 @@ namespace SysTool.Repositories {
             this.LocalWMI_LDAP = localWMI_LDAP;
         }
 
-        public void Initialize() {
-            var computers = this.LocalWMI_LDAP.Get<ds_computer>()
-                .Select(d => new Computer(d, new WMIRepository(@$"\\{d.DS_name}\root\cimv2")));
+        public async Task InitializeAsync() {
+            var computers = (await this.LocalWMI_LDAP.GetAsync<ds_computer>())
+                .Select(c => new Computer(c, new WMIRepository(@$"\\{c.DS_name}\root\cimv2")));
             this.BindingSource.DataSource = computers;
         }
 
         public Computer Get(string hostname) {
             var computer = this.Computers
-                .SingleOrDefault(c => c.ds_computer.DS_name == hostname);
+                .SingleOrDefault(c => c.Value == hostname);
             return computer;
         }
 

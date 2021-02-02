@@ -2,28 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using System.Threading.Tasks;
 using SysTool.Attributes;
 using SysTool.Extensions;
 using SysTool.Models.WMI;
 
 namespace SysTool.Repositories {
     public class WMIRepository {
+        #region Private Properties
         private ManagementScope Scope { get; set; }
+        #endregion
 
-        public WMIRepository(string path) {
-            this.Scope = new ManagementScope(path);
+        #region Constructors
+        public WMIRepository(string path)
+            : this(path, null) {
         }
+        public WMIRepository(string path, ConnectionOptions options) {
+            this.Scope = new ManagementScope(path, options);
+        }
+        public WMIRepository(ManagementScope scope) {
+            this.Scope = scope;
+        }
+        #endregion
 
-        // TODO: implement Task-based Asynchronous Pattern (TAP) around WMI using ManagementOperationObserver
-        // https://docs.microsoft.com/en-us/mem/configmgr/develop/core/clients/programming/how-to-perform-an-asynchronous-query-by-using-system.management
-        // https://docs.microsoft.com/en-us/dotnet/standard/asynchronous-programming-patterns/task-based-asynchronous-pattern-tap
-
+        #region Public Methods
         public List<T> Get<T>(string className = default, string condition = default)
             where T : WMIBase, new() {
             if (className == default) className = typeof(T).Name;
             return this.Query<T>(className, condition);
         }
+        public Task<List<T>> GetAsync<T>(string className = default, string condition = default)
+            where T : WMIBase, new() {
+            if (className == default) className = typeof(T).Name;
+            return this.QueryAsync<T>(className, condition);
+        }
+        #endregion
 
+        #region Private Methods
         private List<T> Query<T>(string className, string condition)
             where T : WMIBase, new() {
             var instances = new List<T>();
@@ -41,7 +56,27 @@ namespace SysTool.Repositories {
 
             return instances;
         }
+        private Task<List<T>> QueryAsync<T>(string className, string condition)
+            where T : WMIBase, new() {
+            var tcs = new TaskCompletionSource<List<T>>();
+            var instances = new List<T>();
 
+            var observer = new ManagementOperationObserver();
+            observer.ObjectReady += new ObjectReadyEventHandler((s, e) => {
+                using var @object = e.NewObject as ManagementObject;
+                var instance = NewInstance<T>(@object);
+                instances.Add(instance);
+            });
+            observer.Completed += new CompletedEventHandler((s, e) => {
+                tcs.TrySetResult(instances);
+            });
+            
+            var query = new SelectQuery(className, condition);
+            using var searcher = new ManagementObjectSearcher(this.Scope, query);
+            searcher.Get(observer);
+
+            return tcs.Task;
+        }
         private static T NewInstance<T>(ManagementObject @object)
             where T : WMIBase, new() {
             var instance = new T() { ManagementObject = @object };
@@ -56,5 +91,6 @@ namespace SysTool.Repositories {
 
             return instance;
         }
+        #endregion
     }
 }

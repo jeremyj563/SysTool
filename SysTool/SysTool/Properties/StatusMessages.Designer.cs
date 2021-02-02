@@ -97,11 +97,20 @@ namespace SysTool.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connection state is excellent.
+        ///   Looks up a localized string similar to Connection state is good.
         /// </summary>
         internal static string ConnectionGood {
             get {
                 return ResourceManager.GetString("ConnectionGood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection state is poor.
+        /// </summary>
+        internal static string ConnectionPoor {
+            get {
+                return ResourceManager.GetString("ConnectionPoor", resourceCulture);
             }
         }
         
