@@ -9,12 +9,10 @@ namespace SysTool.Extensions {
             putOptions.UseAmendedQualifiers = false;
             putOptions.Type = PutType.UpdateOnly;
         }
-
         public static void UseDefaultUpdateOptions(this PutOptions putOptions, IEnumerable<PropertyInfo> updatedProperties) {
             var properties = updatedProperties.SelectArray(p => p.Name);
             UseDefaultUpdateOptions(putOptions, properties);
         }
-
         private static ManagementNamedValueCollection NewPutOptionsContext(string[] updatedProperties) {
             return new ManagementNamedValueCollection {
                 { "__PUT_EXT_PROPERTIES", updatedProperties },

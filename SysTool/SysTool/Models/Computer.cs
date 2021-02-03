@@ -1,10 +1,7 @@
 ﻿using SysTool.Models.WMI;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using SysTool.Enums;
 using SysTool.Repositories;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SysTool.Models {
     public class Computer : IDataUnit {
