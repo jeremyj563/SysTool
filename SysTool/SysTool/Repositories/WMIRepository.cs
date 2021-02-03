@@ -9,6 +9,7 @@ using SysTool.Models.WMI;
 
 namespace SysTool.Repositories {
     public class WMIRepository {
+
         #region Private Properties
         private ManagementScope Scope { get; set; }
         #endregion

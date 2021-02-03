@@ -4,10 +4,11 @@ using System.Windows.Forms;
 
 namespace SysTool.Forms {
     public partial class Notification : Form {
+
         #region Private Properties
         private MessageBoxIcon MessageBoxIcon { get; set; }
-        private string UpArrowText { get; } = $"{char.ConvertFromUtf32(0x23F6)}      Details";
-        private string DownArrowText { get; } = $"{char.ConvertFromUtf32(0x23F7)}      Details";
+        private string UpArrowText => $"{char.ConvertFromUtf32(0x23F6)}      Details";
+        private string DownArrowText => $"{char.ConvertFromUtf32(0x23F7)}      Details";
         #endregion
 
         #region Constructors

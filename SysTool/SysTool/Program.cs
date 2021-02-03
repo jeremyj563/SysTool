@@ -11,6 +11,7 @@ using SysTool.Utilities;
 
 namespace SysTool {
     public class Program {
+
         #region Public Methods
         [STAThread]
         public static void Main() {

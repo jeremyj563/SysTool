@@ -13,6 +13,7 @@ using SysTool.UserControls;
 
 namespace SysTool.Controls {
     public class ComputerNode : TreeNode {
+
         #region Public Properties
         public ComputerPanel ComputerPanel { get; }
         #endregion

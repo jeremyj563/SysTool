@@ -16,6 +16,7 @@ using SysTool.UserControls;
 
 namespace SysTool.Forms {
     public partial class MainForm : Form {
+
         #region Private Properties
         private ComputerRepository ComputerRepository { get; }
         #endregion
@@ -27,7 +28,7 @@ namespace SysTool.Forms {
         }
         #endregion
 
-        #region Public Events
+        #region Event Handlers
         private async void MainForm_Load(object sender, EventArgs e) {
             this.InitializeUserInputComboBox();
         }

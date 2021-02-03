@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace SysTool.Models {
     public class Computer : IDataUnit {
+
         #region Public Properties
         public string Display => $"{this.ds_computer.DS_description?[0] ?? "Unknown"}  >  {this.ds_computer.DS_name}";
         public string Value => this.ds_computer.DS_name;
@@ -16,8 +17,6 @@ namespace SysTool.Models {
 
         #region Private Properties
         private ds_computer ds_computer { get; }
-        private List<Win32_PingStatus> Win32_PingStatuses { get; set; }
-        private List<Win32_Process> Win32_Processes { get; set; }
         #endregion
 
         #region Constructors

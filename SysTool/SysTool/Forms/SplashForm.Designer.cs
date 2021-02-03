@@ -43,9 +43,9 @@
             this.Text = "SysTool Splash";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.this_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.this_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.this_MouseUp);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.SplashForm_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SplashForm_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SplashForm_MouseUp);
             this.ResumeLayout(false);
 
         }

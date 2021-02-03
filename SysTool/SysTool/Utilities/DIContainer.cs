@@ -1,6 +1,4 @@
-﻿using System.Management;
-using System.Runtime.CompilerServices;
-using SysTool.Repositories;
+﻿using SysTool.Repositories;
 
 namespace SysTool.Utilities {
     public static class DIContainer {

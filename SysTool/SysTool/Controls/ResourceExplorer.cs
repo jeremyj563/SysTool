@@ -10,6 +10,7 @@ using SysTool.UserControls;
 
 namespace SysTool.Controls {
     public class ResourceExplorer : TreeView {
+
         #region Private Enums
         private enum Node {
             RootNode,
