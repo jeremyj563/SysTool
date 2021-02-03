@@ -33,10 +33,9 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Constructors
-        public ComputerPanel(Computer computer, WMIRepository wmi)
+        public ComputerPanel(Computer computer)
             : base(computer) {
             this.Computer = computer ?? throw new ArgumentNullException(nameof(computer));
-            this.Computer.WMI = wmi ?? throw new ArgumentNullException(nameof(wmi));
         }
         #endregion
 

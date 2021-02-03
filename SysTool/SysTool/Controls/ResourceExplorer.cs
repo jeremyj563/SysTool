@@ -22,27 +22,30 @@ namespace SysTool.Controls {
         public TreeNodeCollection ComputerNodes => this.ComputersNode.Nodes;
         #endregion
 
-        #region Public Methods
-        public void NewComputerNode(Computer computer) {
+        #region Static Methods
+        public static ComputerNode NewComputerNode(Computer computer) {
             _ = computer ?? throw new ArgumentNullException(nameof(computer));
             var path = @$"\\{computer.Value}\root\cimv2";
-            var wmi = new WMIRepository(path);
-            var panel = new ComputerPanel(computer, wmi);
-            var node = new ComputerNode(computer.Display, computer.Value, panel);
-            this.AddComputerNode(node);
+            computer.WMI = new WMIRepository(path);
+            var panel = new ComputerPanel(computer);
+            return new ComputerNode(computer.Display, computer.Value, panel);
         }
-        public void AddComputerNode(ComputerNode node) {
-            _ = node ?? throw new ArgumentNullException(nameof(node));
-            if (this.FindComputerNode(node) is null) {
+        #endregion
+
+        #region Public Methods
+        public void AddComputerNode(Computer computer) {
+            _ = computer ?? throw new ArgumentNullException(nameof(computer));
+            var node = this.FindComputerNode(computer.Value);
+            if (node is null) {
+                node = ResourceExplorer.NewComputerNode(computer);
                 this.ComputerNodes.Add(node);
             }
             this.SelectedNode = node;
         }
-        public TreeNode FindComputerNode(ComputerNode node) {
-            _ = node ?? throw new ArgumentNullException(nameof(node));
-            var key = node.ComputerPanel.Computer.Value;
+        public ComputerNode FindComputerNode(string key) {
+            _ = key ?? throw new ArgumentNullException(nameof(key));
             var nodes = this.ComputerNodes.Find(key, false);
-            return nodes.SingleOrDefault();
+            return nodes.SingleOrDefault() as ComputerNode;
         }
         #endregion
     }

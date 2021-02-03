@@ -29,7 +29,7 @@ namespace SysTool.Forms {
             var comboBox = this.UserInputComboBox;
             if (comboBox.SelectedItem is Computer) {
                 var computer = comboBox.SelectedItem as Computer;
-                this.ResourceExplorer.NewComputerNode(computer);
+                this.ResourceExplorer.AddComputerNode(computer);
                 await computer.InitializeAsync();
             } else {
                 this.SubmitSearch(comboBox.Text);
