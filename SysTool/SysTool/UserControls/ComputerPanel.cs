@@ -83,7 +83,7 @@ namespace SysTool.UserControls {
             if (await this.TestOnlineAsync() == false) return;
             base.WriteStatusMessage(StatusMessages.PingResponse, Color.Green);
             base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);
-            var status = await this.Computer.WMI.GetPingStatusAsync(this.Computer.Value);
+            var status = await Task.Run(() => this.Computer.WMI.GetPingStatus(this.Computer.Value));
             if (status?.ResponseTime < 10) {
                 base.WriteStatusMessage(StatusMessages.ConnectionGood, Color.Green);
                 this.ConnectionState = ConnectionState.Online;
@@ -94,9 +94,9 @@ namespace SysTool.UserControls {
         }
         private async Task SetUserStatusAsync() {
             if (await this.Computer.TestOnlineAsync() == false) return;
-            var explorer = await this.Computer.WMI.GetProcessAsync("explorer.exe");
+            var explorer = await Task.Run(() => this.Computer.WMI.GetProcess("explorer.exe"));
             if (explorer?.Name == "explorer.exe") {
-                var logonUI = await this.Computer.WMI.GetProcessAsync("logonui.exe");
+                var logonUI = await Task.Run(() => this.Computer.WMI.GetProcess("logonui.exe"));
                 if (logonUI?.Name == "logonui.exe") {
                     this.UserStatus = UserStatus.Inactive;
                 } else {
