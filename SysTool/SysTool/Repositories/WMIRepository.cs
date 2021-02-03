@@ -13,71 +13,72 @@ namespace SysTool.Repositories {
         private ManagementScope Scope { get; set; }
         #endregion
 
+        #region Static Properties
+        private static ConnectionOptions DefaultConnectionOptions => new ConnectionOptions { 
+            Timeout = new TimeSpan(0, 0, 2)
+        };
+        private static EnumerationOptions DefaultEnumerationOptions => new EnumerationOptions {
+            ReturnImmediately = true
+        };
+        #endregion
+
         #region Constructors
-        public WMIRepository(string path)
-            : this(path, null) {
-        }
-        public WMIRepository(string path, ConnectionOptions options) {
-            this.Scope = new ManagementScope(path, options);
+        public WMIRepository(string path, ConnectionOptions options = default)
+            : this(new ManagementScope(path, options ?? WMIRepository.DefaultConnectionOptions)) {
         }
         public WMIRepository(ManagementScope scope) {
-            this.Scope = scope;
+            this.Scope = scope ?? throw new ArgumentNullException(nameof(scope));
         }
         #endregion
 
         #region Repository Methods
         public Task<Win32_PingStatus> GetPingStatusAsync(string address) {
             var condition = $"Address='{address}'";
-            return this.GetOneAsync<Win32_PingStatus>(condition);
+            return this.GetOneAsync<Win32_PingStatus>(condition: condition);
         }
         public Task<Win32_Process> GetProcessAsync(string name) {
             var condition = $"Name='{name}'";
-            return this.GetOneAsync<Win32_Process>(condition);
+            return this.GetOneAsync<Win32_Process>(condition: condition);
         }
         #endregion
 
         #region Generic Methods
-        public T GetOne<T>(string condition)
+        public T GetOne<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
             where T : WMIBase, new() {
-            if (string.IsNullOrWhiteSpace(condition)) return default;
-            return this.GetOne<T>(default, condition);
+            (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
+            return this.Query<T>(query, options).SingleOrDefault();
         }
-        public Task<T> GetOneAsync<T>(string condition)
+        public async Task<T> GetOneAsync<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
             where T : WMIBase, new() {
-            if (string.IsNullOrWhiteSpace(condition)) return default;
-            return this.GetOneAsync<T>(default, condition);
+            (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
+            return (await this.QueryAsync<T>(query, options)).SingleOrDefault();
         }
-        public T GetOne<T>(string className = default, string condition = default)
+        public List<T> Get<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
             where T : WMIBase, new() {
-            if (className == default) className = typeof(T).Name;
-            var query = new SelectQuery(className, condition);
-            return this.Query<T>(query).SingleOrDefault();
+            (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
+            return this.Query<T>(query, options);
         }
-        public async Task<T> GetOneAsync<T>(string className = default, string condition = default)
+        public Task<List<T>> GetAsync<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
             where T : WMIBase, new() {
-            if (className == default) className = typeof(T).Name;
-            var query = new SelectQuery(className, condition);
-            return (await this.QueryAsync<T>(query)).SingleOrDefault();
+            (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
+            return this.QueryAsync<T>(query, options);
         }
-        public List<T> Get<T>(string className = default, string condition = default)
-            where T : WMIBase, new() {
-            if (className == default) className = typeof(T).Name;
-            var query = new SelectQuery(className, condition);
-            return this.Query<T>(query);
-        }
-        public Task<List<T>> GetAsync<T>(string className = default, string condition = default)
-            where T : WMIBase, new() {
-            if (className == default) className = typeof(T).Name;
-            var query = new SelectQuery(className, condition);
-            return this.QueryAsync<T>(query);
+        #endregion
+
+        #region Static Methods
+        private static (SelectQuery, EnumerationOptions) GetQueryParams<T>(string className, string condition, EnumerationOptions options = default, SelectQuery query = default) {
+            className ??= typeof(T).Name;
+            options ??= WMIRepository.DefaultEnumerationOptions;
+            query ??= new SelectQuery(className, condition);
+            return (query, options);
         }
         #endregion
 
         #region Private Methods
-        private List<T> Query<T>(SelectQuery query)
+        private List<T> Query<T>(SelectQuery query, EnumerationOptions options)
             where T : WMIBase, new() {
             var instances = new List<T>();
-            using (var searcher = new ManagementObjectSearcher(this.Scope, query)) {
+            using (var searcher = new ManagementObjectSearcher(this.Scope, query, options)) {
                 foreach (ManagementObject @object in searcher.Get()) {
                     using (@object) {
                         @object.Get();
@@ -88,7 +89,7 @@ namespace SysTool.Repositories {
             }
             return instances;
         }
-        private Task<List<T>> QueryAsync<T>(SelectQuery query)
+        private Task<List<T>> QueryAsync<T>(SelectQuery query, EnumerationOptions options)
             where T : WMIBase, new() {
             var tcs = new TaskCompletionSource<List<T>>();
             var instances = new List<T>();
@@ -102,8 +103,8 @@ namespace SysTool.Repositories {
             observer.Completed += new CompletedEventHandler((s, e) => {
                 tcs.TrySetResult(instances);
             });
-            
-            using var searcher = new ManagementObjectSearcher(this.Scope, query);
+
+            using var searcher = new ManagementObjectSearcher(this.Scope, query, options);
             searcher.Get(observer);
 
             return tcs.Task;

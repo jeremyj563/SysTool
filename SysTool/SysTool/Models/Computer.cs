@@ -11,7 +11,7 @@ namespace SysTool.Models {
         #region Public Properties
         public string Display => $"{this.ds_computer.DS_description?[0] ?? "Unknown"}  >  {this.ds_computer.DS_name}";
         public string Value => this.ds_computer.DS_name;
-        public WMIRepository WMI { get; }
+        public WMIRepository WMI { get; set; }
         #endregion
 
         #region Private Properties
@@ -21,9 +21,8 @@ namespace SysTool.Models {
         #endregion
 
         #region Constructors
-        public Computer(ds_computer ds_computer, WMIRepository wmi) {
+        public Computer(ds_computer ds_computer) {
             this.ds_computer = ds_computer;
-            this.WMI = wmi;
         }
         #endregion
 
@@ -54,12 +53,6 @@ namespace SysTool.Models {
             catch (PingException) {
                 return false;
             }
-        }
-        public async Task<int> GetResponseTime() {
-            throw new System.NotImplementedException();
-        }
-        public async Task<UserStatus> GetUserStatus() {
-            throw new System.NotImplementedException();
         }
         #endregion
     }

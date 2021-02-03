@@ -69,7 +69,8 @@ namespace SysTool.Forms {
             comboBox.Focus();
         }
         private void SubmitSearch(string searchTerm) {
-            if (string.IsNullOrWhiteSpace(searchTerm)) return;
+            _ = searchTerm ?? throw new ArgumentNullException(nameof(searchTerm));
+            throw new NotImplementedException();
         }
         private void AddComputerPanel(ComputerPanel panel) {
             this.UserInputComboBox.SelectedItem = panel.Computer;

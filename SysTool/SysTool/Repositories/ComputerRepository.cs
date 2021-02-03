@@ -19,8 +19,9 @@ namespace SysTool.Repositories {
         }
 
         public async Task InitializeAsync() {
-            var computers = (await this.LocalWMI_LDAP.GetAsync<ds_computer>())
-                .Select(c => new Computer(c, new WMIRepository(@$"\\{c.DS_name}\root\cimv2")));
+            var ds_computers = await this.LocalWMI_LDAP.GetAsync<ds_computer>();
+            var computers = ds_computers
+                .Select(c => new Computer(c));
             this.BindingSource.DataSource = computers;
         }
 

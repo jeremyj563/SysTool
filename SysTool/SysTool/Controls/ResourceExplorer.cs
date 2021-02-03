@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Models;
+using SysTool.Repositories;
 using SysTool.UserControls;
 
 namespace SysTool.Controls {
@@ -25,20 +26,22 @@ namespace SysTool.Controls {
 
         #region Public Methods
         public void NewComputerNode(Computer computer) {
-            if (computer == null) return;
-            var panel = new ComputerPanel(computer);
+            _ = computer ?? throw new ArgumentNullException(nameof(computer));
+            var path = @$"\\{computer.Value}\root\cimv2";
+            var wmi = new WMIRepository(path);
+            var panel = new ComputerPanel(computer, wmi);
             var node = new ComputerNode(computer.Display, computer.Value, panel);
             this.AddComputerNode(node);
         }
         public void AddComputerNode(ComputerNode node) {
-            if (node == null) return;
-            if (this.FindComputerNode(node) == null) {
+            _ = node ?? throw new ArgumentNullException(nameof(node));
+            if (this.FindComputerNode(node) is null) {
                 this.ComputerNodes.Add(node);
             }
             this.SelectedNode = node;
         }
         public TreeNode FindComputerNode(ComputerNode node) {
-            if (node == null) return null;
+            _ = node ?? throw new ArgumentNullException(nameof(node));
             var key = node.ComputerPanel.Computer.Value;
             var nodes = this.ComputerNodes.Find(key, false);
             return nodes.SingleOrDefault();
