@@ -33,14 +33,14 @@ namespace SysTool.Controls {
         #endregion
 
         #region Public Methods
-        public void AddComputerNode(Computer computer) {
+        public ComputerNode AddComputerNode(Computer computer) {
             _ = computer ?? throw new ArgumentNullException(nameof(computer));
             var node = this.FindComputerNode(computer.Value);
             if (node is null) {
-                node = ResourceExplorer.NewComputerNode(computer);
+                node = NewComputerNode(computer);
                 this.ComputerNodes.Add(node);
             }
-            this.SelectedNode = node;
+            return node;
         }
         public ComputerNode FindComputerNode(string key) {
             _ = key ?? throw new ArgumentNullException(nameof(key));
