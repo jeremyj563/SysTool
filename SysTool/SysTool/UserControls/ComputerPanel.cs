@@ -17,10 +17,7 @@ using SysTool.Properties;
 using SysTool.Repositories;
 
 namespace SysTool.UserControls {
-    public class ComputerPanel : PanelBase, INotifyPropertyChanged {
-        #region Public Events
-        public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
+    public class ComputerPanel : PanelBase {
 
         #region Private Fields
         private ConnectionState _connectionState;
@@ -33,14 +30,14 @@ namespace SysTool.UserControls {
             get => this._connectionState;
             private set {
                 this._connectionState = value;
-                this.RaisePropertyChangedEvent(nameof(ConnectionState));
+                base.RaisePropertyChangedEvent(nameof(ConnectionState));
             }
         }
         public UserStatus UserStatus {
             get => this._userStatus;
             private set {
                 this._userStatus = value;
-                this.RaisePropertyChangedEvent(nameof(UserStatus));
+                base.RaisePropertyChangedEvent(nameof(UserStatus));
             }
         }
         #endregion
@@ -50,6 +47,14 @@ namespace SysTool.UserControls {
             : base(computer) {
             this.Computer = computer ?? throw new ArgumentNullException(nameof(computer));
             this.Computer.WMI = wmi ?? throw new ArgumentNullException(nameof(wmi));
+        }
+        #endregion
+
+        #region Event Handlers
+        protected async override void OnLoad(EventArgs e) {
+            if (base.Loaded) return;
+            base.OnLoad(e);
+            await this.InitializeAsync();
         }
         #endregion
 
@@ -65,10 +70,6 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Private Methods
-        private void RaisePropertyChangedEvent(string propertyName) {
-            var eventArgs = new PropertyChangedEventArgs(propertyName);
-            this.PropertyChanged?.Invoke(this, eventArgs);
-        }
         private async Task<bool> TestOnlineAsync() {
             base.WriteStatusMessage(StatusMessages.ConnectionCheck);
             if (await this.Computer.TestOnlineAsync() == false) {
@@ -109,14 +110,6 @@ namespace SysTool.UserControls {
             base.WriteStatusMessage(StatusMessages.ConnectionError, Color.Brown);
             base.WriteStatusMessage(ex.Message, Color.Brown);
             this.ConnectionState = ConnectionState.OnlineDegraded;
-        }
-        #endregion
-
-        #region Event Handlers
-        protected async override void OnLoad(EventArgs e) {
-            if (base.Loaded) return;
-            base.OnLoad(e);
-            await this.InitializeAsync();
         }
         #endregion
     }

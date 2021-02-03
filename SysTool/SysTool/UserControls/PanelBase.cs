@@ -10,7 +10,12 @@ using System.Windows.Forms;
 using SysTool.Models;
 
 namespace SysTool.UserControls {
-    public partial class PanelBase : UserControl {
+    public partial class PanelBase : UserControl, INotifyPropertyChanged {
+
+        #region Public Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
         #region Public Properties
         public bool Loaded { get; private set; }
         public IDataUnit DataUnit { get; }
@@ -24,6 +29,10 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Protected Methods
+        protected void RaisePropertyChangedEvent(string propertyName) {
+            var eventArgs = new PropertyChangedEventArgs(propertyName);
+            this.PropertyChanged?.Invoke(this, eventArgs);
+        }
         protected void WriteStatusMessage(string text, Color color = default) {
             if (string.IsNullOrWhiteSpace(text)) return;
             if (color == default) color = Color.Black;
