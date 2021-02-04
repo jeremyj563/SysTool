@@ -4,16 +4,17 @@ using System.Reflection;
 
 namespace SysTool.Extensions {
     public static class PutOptionsExtensions {
-        public static void UseDefaultUpdateOptions(this PutOptions putOptions, string[] updatedProperties) {
-            putOptions.Context = NewPutOptionsContext(updatedProperties);
-            putOptions.UseAmendedQualifiers = false;
-            putOptions.Type = PutType.UpdateOnly;
+        public static PutOptions UseDefault(this PutOptions options, string[] updatedProperties) {
+            options.Context = PutOptionsExtensions.NewContext(updatedProperties);
+            options.UseAmendedQualifiers = false;
+            options.Type = PutType.UpdateOnly;
+            return options;
         }
-        public static void UseDefaultUpdateOptions(this PutOptions putOptions, IEnumerable<PropertyInfo> updatedProperties) {
+        public static PutOptions UseDefault(this PutOptions putOptions, IEnumerable<PropertyInfo> updatedProperties) {
             var properties = updatedProperties.SelectArray(p => p.Name);
-            UseDefaultUpdateOptions(putOptions, properties);
+            return PutOptionsExtensions.UseDefault(putOptions, properties);
         }
-        private static ManagementNamedValueCollection NewPutOptionsContext(string[] updatedProperties) {
+        private static ManagementNamedValueCollection NewContext(string[] updatedProperties) {
             return new ManagementNamedValueCollection {
                 { "__PUT_EXT_PROPERTIES", updatedProperties },
                 { "__PUT_EXTENSIONS", true },

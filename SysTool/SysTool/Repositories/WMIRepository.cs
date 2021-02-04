@@ -14,18 +14,9 @@ namespace SysTool.Repositories {
         private ManagementScope Scope { get; set; }
         #endregion
 
-        #region Static Properties
-        private static ConnectionOptions DefaultConnectionOptions => new ConnectionOptions { 
-            Timeout = new TimeSpan(0, 0, 2)
-        };
-        private static EnumerationOptions DefaultEnumerationOptions => new EnumerationOptions {
-            ReturnImmediately = true
-        };
-        #endregion
-
         #region Constructors
         public WMIRepository(string path, ConnectionOptions options = default)
-            : this(new ManagementScope(path, options ?? WMIRepository.DefaultConnectionOptions)) {
+            : this(new ManagementScope(path, options ?? new ConnectionOptions().UseDefault())) {
         }
         public WMIRepository(ManagementScope scope) {
             this.Scope = scope ?? throw new ArgumentNullException(nameof(scope));
@@ -69,7 +60,7 @@ namespace SysTool.Repositories {
         #region Static Methods
         private static (SelectQuery, EnumerationOptions) GetQueryParams<T>(string className, string condition, EnumerationOptions options = default, SelectQuery query = default) {
             className ??= typeof(T).Name;
-            options ??= WMIRepository.DefaultEnumerationOptions;
+            options ??= new EnumerationOptions().UseDefault();
             query ??= new SelectQuery(className, condition);
             return (query, options);
         }

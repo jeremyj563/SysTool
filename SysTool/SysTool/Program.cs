@@ -27,7 +27,12 @@ namespace SysTool {
             // Handle any exception thrown in mainForm.InitializeAsync()
             HandleExceptions(programStart);
 
-            Application.Run();
+            try {
+                Application.Run();
+            } catch (Exception ex) {
+                Notification.Show(ex);
+                Application.Exit();
+            }
         }
         #endregion
 
@@ -50,15 +55,7 @@ namespace SysTool {
                 await task;
             }
             catch (Exception ex) {
-                string message = ex.GetType().Name;
-                message += Environment.NewLine;
-                message += Environment.NewLine;
-                message += ex.Message;
-                message += Environment.NewLine;
-                message += Environment.NewLine;
-                message += ex.StackTrace;
-
-                MessageBox.Show(message, "Unhandled Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Notification.Show(ex);
                 Application.Exit();
             }
         }

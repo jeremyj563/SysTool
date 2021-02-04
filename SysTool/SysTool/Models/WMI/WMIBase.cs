@@ -9,41 +9,51 @@ using SysTool.Forms;
 
 namespace SysTool.Models.WMI {
     public abstract class WMIBase {
-        public ManagementObject ManagementObject { get; set; }
-        private IEnumerable<PropertyInfo> WritableProperties { get; }
 
+        #region Public Properties
+        public ManagementObject ManagementObject { get; set; }
+        #endregion
+
+        #region Private Properties
+        private IEnumerable<PropertyInfo> WritableProperties { get; }
+        #endregion
+
+        #region Constructors
         public WMIBase() {
             this.WritableProperties = this.GetType()
                 .GetWritableProperties()
                 .Where(p => Attribute.IsDefined(p, typeof(WMIPropertyAttribute)))
                 .Where(p => Attribute.IsDefined(p, typeof(WMIWritableAttribute)));
         }
+        #endregion
 
-        public void Save() {
-            if (!this.WritableProperties.Any()) return;
-            UpdatePropertyValues();
-            var options = new PutOptions();
-            options.UseDefaultUpdateOptions(this.WritableProperties);
-            Save(options);
+        #region Public Methods
+        public void Save(string[] updatedPropertyNames, PutOptions options = default) {
+            _ = updatedPropertyNames ?? throw new ArgumentNullException(nameof(updatedPropertyNames));
+            var updatedProperties = new List<PropertyInfo>();
+            foreach (var name in updatedPropertyNames) {
+                var property = this.GetType().GetProperty(name);
+                updatedProperties.Add(property);
+            }
+            this.Save(updatedProperties, options);
         }
+        public void Save(IEnumerable<PropertyInfo> updatedProperties = default, PutOptions options = default) {
+            if (!this.WritableProperties.Any()) return;
+            updatedProperties ??= this.WritableProperties;
+            options ??= new PutOptions().UseDefault(updatedProperties);
+            this.UpdatePropertyValues(updatedProperties);
+            this.ManagementObject.Put(options);
+        }
+        #endregion
 
-        private void UpdatePropertyValues() {
-            foreach (var property in this.WritableProperties) {
+        #region Private Methods
+        private void UpdatePropertyValues(IEnumerable<PropertyInfo> updatedProperties = default) {
+            foreach (var property in this.WritableProperties.Intersect(updatedProperties)) {
                 var name = property.Name;
                 var value = property.GetValue(this);
                 this.ManagementObject.SetPropertyValue(name, value);
             }
         }
-
-        private void Save(PutOptions options) {
-            try {
-                using (this.ManagementObject) {
-                    this.ManagementObject.Put(options);
-                }
-            }
-            catch (ManagementException ex) {
-                Notification.Show(GetType(), ex);
-            }
-        }
+        #endregion
     }
 }

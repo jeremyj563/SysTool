@@ -47,7 +47,7 @@ namespace SysTool.UserControls {
             var oldDescription = this.Computer.Description;
             var newDescription = InputBox("Enter the new description:", "Set Description", oldDescription);
             this.Computer.Description = newDescription;
-            base.WriteStatusMessage($"Description changed from {oldDescription} to {newDescription}");
+            base.WriteStatusMessage($"Description changed from '{oldDescription}' to '{newDescription}'");
         }
         public void ToolStripMenuItem_StartRemoteAssistance(object sender, EventArgs e) {
             throw new NotImplementedException();

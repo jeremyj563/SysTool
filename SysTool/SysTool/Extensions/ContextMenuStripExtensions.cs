@@ -12,6 +12,7 @@ using SysTool.Properties;
 namespace SysTool.Extensions {
     public static class ContextMenuStripExtensions {
         public static void AddDefaultItems(this ContextMenuStrip menu, ComputerNode node) {
+            _ = node ?? throw new ArgumentNullException(nameof(node));
             menu?.Items.Add(ContextMenuLabels.RemoveNode, null, (s, e) => {
                 var mainForm = node.ComputerPanel.ParentForm as MainForm;
                 mainForm.MainSplitContainer.Panel2.Controls.Clear();
@@ -31,7 +32,6 @@ namespace SysTool.Extensions {
             _ = node ?? throw new ArgumentNullException(nameof(node));
             if (node.ComputerPanel.ConnectionState == ConnectionState.OnlineSlow) {
                 menu?.Items.Add(new ToolStripSeparator());
-
             }
         }
         public static void AddOnlineDegradedItems(this ContextMenuStrip menu, ComputerNode node) {

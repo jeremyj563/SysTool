@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>", Scope = "type", Target = "~T:SysTool.Models.WMI.Win32_Process")]
 
 // scope: member
-[assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Extensions.PutOptionsExtensions.UseDefaultUpdateOptions(System.Management.PutOptions,System.String[])")]
+[assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Extensions.PutOptionsExtensions.UseDefault(System.Management.PutOptions,System.String[])")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Forms.MainForm.InitializeAsync~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Program.HandleExceptions(System.Threading.Tasks.Task)")]
 [assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Program.HandleExceptions(System.Threading.Tasks.Task)")]

@@ -31,17 +31,16 @@ namespace SysTool.Forms {
         #endregion
 
         #region Static Methods
-        public static void Show(Type type, Exception ex) {
-            var message = $"Type: {type.Name}";
-            var details = "Message:";
-            details += Environment.NewLine;
-            details += ex?.Message;
-            details += "Stack Trace:";
+        public static void Show(Exception ex) {
+            var message = "Message:";
+            message += Environment.NewLine;
+            message += ex?.Message;
+            var details = "Stack Trace:";
             details += Environment.NewLine;
             details += ex?.StackTrace;
             Notification.Show(message, details);
         }
-        public static void Show(string message, string details = "", string title = "Error", MessageBoxIcon icon = MessageBoxIcon.Error) {
+        public static void Show(string message, string details = "", string title = "Unhandled Exception", MessageBoxIcon icon = MessageBoxIcon.Error) {
             using var messageBox = new Notification(message, details, title, icon);
             messageBox.ShowDialog();
         }

@@ -13,7 +13,7 @@ namespace SysTool.Models {
             get => this.ds_computer.DS_description?[0];
             set {
                 this.ds_computer.DS_description = new[] { value };
-                this.ds_computer.Save();
+                this.ds_computer.Save(new[] { nameof(ds_computer.DS_description) });
             }
         }
         #endregion
