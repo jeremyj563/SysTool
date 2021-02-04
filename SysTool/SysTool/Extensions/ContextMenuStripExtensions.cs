@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Controls;
 using SysTool.Enums;
+using SysTool.Forms;
 using SysTool.Properties;
 
 namespace SysTool.Extensions {
     public static class ContextMenuStripExtensions {
         public static void AddDefaultItems(this ContextMenuStrip menu, ComputerNode node) {
-            menu?.Items.Add(ContextMenuLabels.RemoveNode, null, (s, e) => node.Remove());
+            menu?.Items.Add(ContextMenuLabels.RemoveNode, null, (s, e) => {
+                var mainForm = node.ComputerPanel.ParentForm as MainForm;
+                mainForm.MainSplitContainer.Panel2.Controls.Clear();
+                node.Remove();
+            });
         }
         public static void AddOnlineItems(this ContextMenuStrip menu, ComputerNode node) {
             _ = node ?? throw new ArgumentNullException(nameof(node));
