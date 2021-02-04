@@ -31,7 +31,7 @@ namespace SysTool.Forms {
                 var computer = comboBox.SelectedItem as Computer;
                 var node = this.ResourceExplorer.AddComputerNode(computer);
                 this.ResourceExplorer.SelectedNode = node;
-                await computer.InitializeAsync();
+                await node.InitializeAsync();
             } else {
                 this.SubmitSearch(comboBox.Text);
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using static Microsoft.VisualBasic.Interaction;
+using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using SysTool.Enums;
@@ -16,6 +17,7 @@ namespace SysTool.UserControls {
 
         #region Public Properties
         public Computer Computer { get; }
+        public WMIRepository WMI { get; }
         public ConnectionState ConnectionState {
             get => this._connectionState;
             private set {
@@ -33,17 +35,25 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Constructors
-        public ComputerPanel(Computer computer)
+        public ComputerPanel(Computer computer, WMIRepository wmi)
             : base(computer) {
             this.Computer = computer ?? throw new ArgumentNullException(nameof(computer));
+            this.WMI = wmi ?? throw new ArgumentNullException(nameof(wmi));
         }
         #endregion
 
         #region Event Handlers
-        protected async override void OnLoad(EventArgs e) {
-            if (base.Loaded) return;
-            base.OnLoad(e);
-            await this.InitializeAsync();
+        public void ToolStripMenuItem_SetDescription(object sender, EventArgs e) {
+            var oldDescription = this.Computer.Description;
+            var newDescription = InputBox("Enter the new description:", "Set Description", oldDescription);
+            this.Computer.Description = newDescription;
+            base.WriteStatusMessage($"Description changed from {oldDescription} to {newDescription}");
+        }
+        public void ToolStripMenuItem_StartRemoteAssistance(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+        public void ToolStripMenuItem_StartRemoteDesktop(object sender, EventArgs e) {
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -72,7 +82,7 @@ namespace SysTool.UserControls {
             if (await this.TestOnlineAsync() == false) return;
             base.WriteStatusMessage(StatusMessages.PingResponse, Color.Green);
             base.WriteStatusMessage(StatusMessages.ComputerOnline, Color.Green);
-            var status = await Task.Run(() => this.Computer.WMI.GetPingStatus(this.Computer.Value));
+            var status = await Task.Run(() => this.WMI.GetPingStatus(this.Computer.Value));
             if (status?.ResponseTime < 10) {
                 base.WriteStatusMessage(StatusMessages.ConnectionGood, Color.Green);
                 this.ConnectionState = ConnectionState.Online;
@@ -83,9 +93,9 @@ namespace SysTool.UserControls {
         }
         private async Task SetUserStatusAsync() {
             if (await this.Computer.TestOnlineAsync() == false) return;
-            var explorer = await Task.Run(() => this.Computer.WMI.GetProcess("explorer.exe"));
+            var explorer = await Task.Run(() => this.WMI.GetProcess("explorer.exe"));
             if (explorer?.Name == "explorer.exe") {
-                var logonUI = await Task.Run(() => this.Computer.WMI.GetProcess("logonui.exe"));
+                var logonUI = await Task.Run(() => this.WMI.GetProcess("logonui.exe"));
                 if (logonUI?.Name == "logonui.exe") {
                     this.UserStatus = UserStatus.Inactive;
                 } else {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Models;
 using SysTool.Repositories;
@@ -25,10 +26,10 @@ namespace SysTool.Controls {
         #region Static Methods
         public static ComputerNode NewComputerNode(Computer computer) {
             _ = computer ?? throw new ArgumentNullException(nameof(computer));
-            var path = @$"\\{computer.Value}\root\cimv2";
-            computer.WMI = new WMIRepository(path);
-            var panel = new ComputerPanel(computer);
-            return new ComputerNode(computer.Display, computer.Value, panel);
+            var wmi = new WMIRepository(@$"\\{computer.Value}\root\cimv2");
+            var panel = new ComputerPanel(computer, wmi);
+            var node = new ComputerNode(computer.Display, computer.Value, panel);
+            return node;
         }
         #endregion
 
@@ -37,7 +38,7 @@ namespace SysTool.Controls {
             _ = computer ?? throw new ArgumentNullException(nameof(computer));
             var node = this.FindComputerNode(computer.Value);
             if (node is null) {
-                node = NewComputerNode(computer);
+                node = ResourceExplorer.NewComputerNode(computer);
                 this.ComputerNodes.Add(node);
             }
             return node;

@@ -17,7 +17,6 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Public Properties
-        public bool Loaded { get; private set; }
         public IDataUnit DataUnit { get; }
         #endregion
 
@@ -41,14 +40,6 @@ namespace SysTool.UserControls {
             this.StatusTextBox.SelectionColor = color;
             this.StatusTextBox.AppendText(message);
             this.StatusTextBox.ScrollToCaret();
-        }
-        #endregion
-
-        #region Overridden Methods
-        protected override void OnLoad(EventArgs e) {
-            if (this.Loaded) return;
-            base.OnLoad(e);
-            this.Loaded = true;
         }
         #endregion
     }

@@ -37,17 +37,9 @@ namespace SysTool.Repositories {
             var condition = $"Address='{address}'";
             return this.GetOne<Win32_PingStatus>(condition: condition);
         }
-        public Task<Win32_PingStatus> GetPingStatusAsync(string address) {
-            var condition = $"Address='{address}'";
-            return this.GetOneAsync<Win32_PingStatus>(condition: condition);
-        }
         public Win32_Process GetProcess(string name) {
             var condition = $"Name='{name}'";
             return this.GetOne<Win32_Process>(condition: condition);
-        }
-        public Task<Win32_Process> GetProcessAsync(string name) {
-            var condition = $"Name='{name}'";
-            return this.GetOneAsync<Win32_Process>(condition: condition);
         }
         #endregion
 

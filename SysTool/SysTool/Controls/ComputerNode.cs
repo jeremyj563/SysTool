@@ -1,14 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Enums;
+using SysTool.Extensions;
 using SysTool.UserControls;
 
 namespace SysTool.Controls {
     public class ComputerNode : TreeNode {
 
         #region Public Properties
+        public bool Initialized { get; private set; }
         public ComputerPanel ComputerPanel { get; }
         #endregion
 
@@ -29,6 +32,33 @@ namespace SysTool.Controls {
                     this.SetConnectionStateColor();
                     break;
             }
+        }
+        #endregion
+
+        #region Public Methods
+        public async Task InitializeAsync() {
+            if (this.Initialized) return;
+            this.Initialized = true;
+            this.ContextMenuStrip = this.NewContextMenu();
+            await this.ComputerPanel.InitializeAsync();
+        }
+        public ContextMenuStrip NewContextMenu() {
+            var menu = new ContextMenuStrip();
+            menu.AddDefaultItems(this);
+            switch (this?.ComputerPanel.ConnectionState) {
+                case ConnectionState.Online:
+                case ConnectionState.OnlineSlow:
+                    menu.AddOnlineItems(this);
+                    menu.AddOnlineSlowItems(this);
+                    break;
+                case ConnectionState.OnlineDegraded:
+                    menu.AddOnlineDegradedItems(this);
+                    break;
+                case ConnectionState.Offline:
+                    menu.AddOfflineItems(this);
+                    break;
+            }
+            return menu;
         }
         #endregion
 
