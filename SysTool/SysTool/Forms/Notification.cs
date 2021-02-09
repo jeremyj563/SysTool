@@ -7,8 +7,8 @@ namespace SysTool.Forms {
 
         #region Private Properties
         private MessageBoxIcon MessageBoxIcon { get; set; }
-        private string UpArrowText => $"{char.ConvertFromUtf32(0x23F6)}      Details";
-        private string DownArrowText => $"{char.ConvertFromUtf32(0x23F7)}      Details";
+        private static string UpArrowText => $"{char.ConvertFromUtf32(0x23F6)}      Details";
+        private static string DownArrowText => $"{char.ConvertFromUtf32(0x23F7)}      Details";
         #endregion
 
         #region Constructors
@@ -23,7 +23,7 @@ namespace SysTool.Forms {
 
             if (!string.IsNullOrWhiteSpace(details)) {
                 this.DetailsButton.Visible = true;
-                this.DetailsButton.Text = this.DownArrowText;
+                this.DetailsButton.Text = DownArrowText;
                 this.DetailsButton.Enabled = true;
                 this.DetailsTextBox.Text = details;
             }
@@ -47,9 +47,9 @@ namespace SysTool.Forms {
         #endregion
 
         #region Event Handlers
-        protected override void OnPaint(PaintEventArgs e) {
+        protected override void OnPaint(PaintEventArgs? e) {
             this.DrawMessageBoxIcon(e);
-            base.OnPaint(e);
+            base.OnPaint(e!);
         }
         private void CloseButton_Click(object sender, EventArgs e) {
             this.Close();
@@ -57,16 +57,16 @@ namespace SysTool.Forms {
         private void DetailsButton_Click(object sender, EventArgs e) {
             bool visible = this.DetailsTextBox.Visible;
             this.DetailsTextBox.Visible = !visible;
-            this.DetailsButton.Text = visible ? this.DownArrowText : this.UpArrowText;
+            this.DetailsButton.Text = visible ? DownArrowText : UpArrowText;
             this.Height = visible ? this.Height - 180 : this.Height + 180;
         }
         #endregion
 
         #region Private Methods
-        private void DrawMessageBoxIcon(PaintEventArgs e) {
+        private void DrawMessageBoxIcon(PaintEventArgs? e) {
             var iconName = Enum.GetName(typeof(MessageBoxIcon), this.MessageBoxIcon);
-            var icon = typeof(SystemIcons).GetProperty(iconName).GetValue(null) as Icon;
-            e.Graphics.DrawIcon(icon, 16, 16);
+            var icon = typeof(SystemIcons).GetProperty(iconName!)?.GetValue(null) as Icon;
+            e?.Graphics.DrawIcon(icon!, 16, 16);
         }
         #endregion
     }

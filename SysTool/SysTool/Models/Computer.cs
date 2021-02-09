@@ -1,18 +1,18 @@
-﻿using SysTool.Models.WMI;
+﻿using System;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using SysTool.Repositories;
+using SysTool.Models.WMI;
 
 namespace SysTool.Models {
     public class Computer : IDataUnit {
 
         #region Public Properties
-        public string Display => $"{this.Description ?? "Unknown"}  >  {this.ds_computer.DS_name}";
-        public string Value => this.ds_computer.DS_name;
+        public string Display => $"{this.Description}  >  {this.Value}";
+        public string Value => this.ds_computer.DS_name ?? string.Empty;
         public string Description {
-            get => this.ds_computer.DS_description?[0];
+            get => this.ds_computer.DS_description?[0] ?? "Unknown";
             set {
-                this.ds_computer.DS_description = new[] { value };
+                this.ds_computer.DS_description = new[] { value ?? string.Empty };
                 this.ds_computer.Save(new[] { nameof(ds_computer.DS_description) });
             }
         }

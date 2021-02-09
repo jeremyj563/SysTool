@@ -13,7 +13,7 @@ namespace SysTool.UserControls {
     public partial class PanelBase : UserControl, INotifyPropertyChanged {
 
         #region Public Events
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Public Properties

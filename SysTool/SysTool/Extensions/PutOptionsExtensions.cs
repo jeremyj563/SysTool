@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Management;
 using System.Reflection;
 
 namespace SysTool.Extensions {
     public static class PutOptionsExtensions {
         public static PutOptions UseDefault(this PutOptions options, string[] updatedProperties) {
+            _ = options ?? throw new ArgumentNullException(nameof(options));
             options.Context = PutOptionsExtensions.NewContext(updatedProperties);
             options.UseAmendedQualifiers = false;
             options.Type = PutType.UpdateOnly;

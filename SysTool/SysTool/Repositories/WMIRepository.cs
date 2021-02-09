@@ -24,33 +24,41 @@ namespace SysTool.Repositories {
         #endregion
 
         #region Repository Methods
-        public Win32_PingStatus GetPingStatus(string address) {
-            var condition = $"Address='{address}'";
-            return this.GetOne<Win32_PingStatus>(condition: condition);
+        public Win32_Process? GetExplorerProcess() {
+            var name = "explorer.exe";
+            return this.GetProcess(name);
         }
-        public Win32_Process GetProcess(string name) {
+        public Win32_Process? GetLogonUIProcess() {
+            var name = "logonui.exe";
+            return this.GetProcess(name);
+        }
+        public Win32_Process? GetProcess(string name) {
             var condition = $"Name='{name}'";
             return this.GetOne<Win32_Process>(condition: condition);
+        }
+        public Win32_PingStatus? GetPingStatus(string address) {
+            var condition = $"Address='{address}'";
+            return this.GetOne<Win32_PingStatus>(condition: condition);
         }
         #endregion
 
         #region Generic Methods
-        public T GetOne<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
+        public T? GetOne<T>(string? className = default, string? condition = default, EnumerationOptions ? options = default, SelectQuery? query = default)
             where T : WMIBase, new() {
             (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
             return this.Query<T>(query, options).SingleOrDefault();
         }
-        public async Task<T> GetOneAsync<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
+        public async Task<T?> GetOneAsync<T>(string? className = default, string? condition = default, EnumerationOptions? options = default, SelectQuery? query = default)
             where T : WMIBase, new() {
             (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
             return (await this.QueryAsync<T>(query, options)).SingleOrDefault();
         }
-        public List<T> Get<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
+        public List<T> Get<T>(string? className = default, string? condition = default, EnumerationOptions? options = default, SelectQuery? query = default)
             where T : WMIBase, new() {
             (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
             return this.Query<T>(query, options);
         }
-        public Task<List<T>> GetAsync<T>(string className = default, string condition = default, EnumerationOptions options = default, SelectQuery query = default)
+        public Task<List<T>> GetAsync<T>(string? className = default, string? condition = default, EnumerationOptions? options = default, SelectQuery? query = default)
             where T : WMIBase, new() {
             (query, options) = WMIRepository.GetQueryParams<T>(className, condition, options, query);
             return this.QueryAsync<T>(query, options);
@@ -58,7 +66,7 @@ namespace SysTool.Repositories {
         #endregion
 
         #region Static Methods
-        private static (SelectQuery, EnumerationOptions) GetQueryParams<T>(string className, string condition, EnumerationOptions options = default, SelectQuery query = default) {
+        private static (SelectQuery, EnumerationOptions) GetQueryParams<T>(string? className, string? condition, EnumerationOptions? options, SelectQuery? query) {
             className ??= typeof(T).Name;
             options ??= new EnumerationOptions().UseDefault();
             query ??= new SelectQuery(className, condition);
@@ -89,7 +97,7 @@ namespace SysTool.Repositories {
             var observer = new ManagementOperationObserver();
             observer.ObjectReady += new ObjectReadyEventHandler((s, e) => {
                 using var @object = e.NewObject as ManagementObject;
-                var instance = NewInstance<T>(@object);
+                var instance = NewInstance<T>(@object!);
                 instances.Add(instance);
             });
             observer.Completed += new CompletedEventHandler((s, e) => {

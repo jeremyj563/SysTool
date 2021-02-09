@@ -10,7 +10,7 @@ namespace SysTool.Extensions {
                 .Select(p => (p.GetValue(@object) as string));
 
             return stringValues
-                .Any(s => s.Contains(text, comparison));
+                .Any(s => s!.Contains(text, comparison));
         }
     }
 }

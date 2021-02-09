@@ -25,7 +25,7 @@ namespace SysTool.Controls {
         #endregion
 
         #region Event Handlers
-        private void ComputerPanel_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+        private void ComputerPanel_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
             switch (e?.PropertyName) {
                 case nameof(this.ComputerPanel.ConnectionState):
                 case nameof(this.ComputerPanel.UserStatus):

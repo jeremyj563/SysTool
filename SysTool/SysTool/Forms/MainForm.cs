@@ -27,9 +27,9 @@ namespace SysTool.Forms {
         private async void SubmitButton_Click(object sender, EventArgs e) {
             this.AcceptButton = null;
             var comboBox = this.UserInputComboBox;
-            if (comboBox.SelectedItem is Computer) {
+            if (comboBox.SelectedItem is not null && comboBox.SelectedItem is Computer) {
                 var computer = comboBox.SelectedItem as Computer;
-                var node = this.ResourceExplorer.AddComputerNode(computer);
+                var node = this.ResourceExplorer.AddComputerNode(computer!);
                 this.ResourceExplorer.SelectedNode = node;
                 await node.InitializeAsync();
             } else {
@@ -39,7 +39,7 @@ namespace SysTool.Forms {
         private void ResourceExplorer_AfterSelect(object sender, TreeViewEventArgs e) {
             if (this.ResourceExplorer.SelectedNode.Parent == this.ResourceExplorer.ComputersNode) {
                 var node = this.ResourceExplorer.SelectedNode as ComputerNode;
-                this.AddComputerPanel(node.ComputerPanel);
+                this.AddComputerPanel(node!.ComputerPanel);
             }
         }
         #endregion

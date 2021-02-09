@@ -16,7 +16,7 @@ namespace SysTool.Repositories {
 
         #region Private Properties
         private WMIRepository LocalWMI_LDAP { get; }
-        private List<Computer> Computers => this.BindingSource.AsList<Computer>();
+        private List<Computer>? Computers => this.BindingSource.AsList<Computer>();
         #endregion
 
         #region Constructors
@@ -32,22 +32,22 @@ namespace SysTool.Repositories {
                 .Select(c => new Computer(c));
             this.BindingSource.DataSource = computers;
         }
-        public Computer Get(string hostname) {
+        public Computer? Get(string hostname) {
             var computer = this.Computers
-                .SingleOrDefault(c => c.Value == hostname);
+                ?.SingleOrDefault(c => c.Value == hostname);
             return computer;
         }
-        public List<Computer> Get() {
+        public List<Computer>? Get() {
             return this.Computers;
         }
-        public List<Computer> Where(Func<Computer, bool> predicate) {
+        public List<Computer>? Where(Func<Computer, bool> predicate) {
             var computers = this.Computers
-                .Where(predicate)
-                .ToList();
+                ?.Where(predicate)
+                ?.ToList();
             return computers;
         }
-        public async Task<List<Computer>> WhereAsync(Func<Computer, Task<bool>> predicate) {
-            var computers = await this.Computers
+        public async Task<List<Computer>?> WhereAsync(Func<Computer, Task<bool>> predicate) {
+            var computers = await this.Computers!
                 .WhereAsync(predicate)
                 .ConfigureAwait(false);
             return computers;

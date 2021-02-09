@@ -43,16 +43,16 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Event Handlers
-        public void ToolStripMenuItem_SetDescription(object sender, EventArgs e) {
+        public void ToolStripMenuItem_SetDescription(object? sender, EventArgs e) {
             var oldDescription = this.Computer.Description;
             var newDescription = InputBox("Enter the new description:", "Set Description", oldDescription);
             this.Computer.Description = newDescription;
             base.WriteStatusMessage($"Description changed from '{oldDescription}' to '{newDescription}'");
         }
-        public void ToolStripMenuItem_StartRemoteAssistance(object sender, EventArgs e) {
+        public void ToolStripMenuItem_StartRemoteAssistance(object? sender, EventArgs e) {
             throw new NotImplementedException();
         }
-        public void ToolStripMenuItem_StartRemoteDesktop(object sender, EventArgs e) {
+        public void ToolStripMenuItem_StartRemoteDesktop(object? sender, EventArgs e) {
             throw new NotImplementedException();
         }
         #endregion
@@ -93,10 +93,10 @@ namespace SysTool.UserControls {
         }
         private async Task SetUserStatusAsync() {
             if (await this.Computer.TestOnlineAsync() == false) return;
-            var explorer = await Task.Run(() => this.WMI.GetProcess("explorer.exe"));
-            if (explorer?.Name == "explorer.exe") {
-                var logonUI = await Task.Run(() => this.WMI.GetProcess("logonui.exe"));
-                if (logonUI?.Name == "logonui.exe") {
+            var explorer = await Task.Run(() => this.WMI.GetExplorerProcess());
+            if (explorer is not null) {
+                var logonUI = await Task.Run(() => this.WMI.GetLogonUIProcess());
+                if (logonUI is not null) {
                     this.UserStatus = UserStatus.Inactive;
                 } else {
                     this.UserStatus = UserStatus.Active;
@@ -106,7 +106,7 @@ namespace SysTool.UserControls {
             }
         }
         private void HandleConnectionError(Exception ex) {
-            base.WriteStatusMessage(StatusMessages.ConnectionError, Color.Brown);
+            base.WriteStatusMessage(StatusMessages.ConnectionError, Color.Red);
             base.WriteStatusMessage(ex.Message, Color.Brown);
             this.ConnectionState = ConnectionState.OnlineDegraded;
         }

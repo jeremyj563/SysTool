@@ -43,8 +43,7 @@ namespace SysTool.Controls {
             }
             return node;
         }
-        public ComputerNode FindComputerNode(string key) {
-            _ = key ?? throw new ArgumentNullException(nameof(key));
+        public ComputerNode? FindComputerNode(string key) {
             var nodes = this.ComputerNodes.Find(key, false);
             return nodes.SingleOrDefault() as ComputerNode;
         }
