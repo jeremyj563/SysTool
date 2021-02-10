@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SysTool.Controls;
+using SysTool.Components;
 using SysTool.Models;
 using SysTool.Repositories;
-using SysTool.UserControls;
 
 namespace SysTool.Forms {
     public partial class MainForm : Form {

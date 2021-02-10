@@ -13,12 +13,11 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:SysTool")]
 
 // scope: type
-[assembly: SuppressMessage("Usage", "CA2237:Mark ISerializable types with serializable", Justification = "<Pending>", Scope = "type", Target = "~T:SysTool.Controls.ComputerNode")]
+[assembly: SuppressMessage("Usage", "CA2237:Mark ISerializable types with serializable", Justification = "<Pending>", Scope = "type", Target = "~T:SysTool.Components.ComputerNode")]
 
 // scope: member
 [assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Program.HandleExceptions(System.Threading.Tasks.Task)")]
-[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.UserControls.ComputerPanel.InitializeAsync~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Extensions.ObjectExtensions.PropertiesContain(System.Object,System.String,System.StringComparison)~System.Boolean")]
-[assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.UserControls.PanelBase.RaisePropertyChangedEvent(System.String)")]
 [assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Program.Main")]
 [assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Program.StartAsync~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:SysTool.Components.ComputerPanel.InitializeAsync~System.Threading.Tasks.Task")]

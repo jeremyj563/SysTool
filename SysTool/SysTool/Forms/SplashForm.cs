@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Windows.Forms;
-using SysTool.Models;
+﻿using System.Windows.Forms;
 
 namespace SysTool.Forms {
     public partial class SplashForm : Form {

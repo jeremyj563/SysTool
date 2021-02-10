@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using SysTool.Models;
 
-namespace SysTool.UserControls {
+namespace SysTool.Components {
     public partial class PanelBase : UserControl, INotifyPropertyChanged {
 
         #region Public Events
@@ -23,7 +23,7 @@ namespace SysTool.UserControls {
         #endregion
 
         #region Protected Methods
-        protected void RaisePropertyChangedEvent(string propertyName) {
+        protected void InvokePropertyChangedEvent(string propertyName) {
             var eventArgs = new PropertyChangedEventArgs(propertyName);
             this.PropertyChanged?.Invoke(this, eventArgs);
         }

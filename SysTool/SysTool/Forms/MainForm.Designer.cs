@@ -34,7 +34,7 @@ namespace SysTool.Forms {
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Custom Actions");
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Settings", new System.Windows.Forms.TreeNode[] { treeNode7 });
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.ResourceExplorer = new SysTool.Controls.ResourceExplorer();
+            this.ResourceExplorer = new SysTool.Components.ResourceExplorer();
             this.UserInputComboBox = new System.Windows.Forms.ComboBox();
             this.LabelResource = new System.Windows.Forms.Label();
             this.SubmitButton = new System.Windows.Forms.Button();
@@ -233,7 +233,7 @@ namespace SysTool.Forms {
         internal System.Windows.Forms.ComboBox UserInputComboBox;
         internal System.Windows.Forms.Label LabelResource;
         internal System.Windows.Forms.Button SubmitButton;
-        public SysTool.Controls.ResourceExplorer ResourceExplorer;
+        public SysTool.Components.ResourceExplorer ResourceExplorer;
         internal System.Windows.Forms.Button ClearButton;
         internal System.Windows.Forms.Button NewButton;
         internal StatusStrip StatusStrip1;

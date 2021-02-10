@@ -7,7 +7,7 @@ using SysTool.Models;
 using SysTool.Properties;
 using SysTool.Repositories;
 
-namespace SysTool.UserControls {
+namespace SysTool.Components {
     public class ComputerPanel : PanelBase {
 
         #region Private Fields
@@ -22,14 +22,14 @@ namespace SysTool.UserControls {
             get => this._connectionState;
             private set {
                 this._connectionState = value;
-                base.RaisePropertyChangedEvent(nameof(ConnectionState));
+                base.InvokePropertyChangedEvent(nameof(ConnectionState));
             }
         }
         public UserStatus UserStatus {
             get => this._userStatus;
             private set {
                 this._userStatus = value;
-                base.RaisePropertyChangedEvent(nameof(UserStatus));
+                base.InvokePropertyChangedEvent(nameof(UserStatus));
             }
         }
         #endregion

@@ -1,7 +1,7 @@
 ﻿
 using System.Windows.Forms;
 
-namespace SysTool.UserControls {
+namespace SysTool.Components {
     partial class PanelBase {
         /// <summary> 
         /// Required designer variable.

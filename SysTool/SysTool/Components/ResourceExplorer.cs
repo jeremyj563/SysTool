@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Models;
 using SysTool.Repositories;
-using SysTool.UserControls;
 
-namespace SysTool.Controls {
+namespace SysTool.Components {
     public class ResourceExplorer : TreeView {
 
         #region Private Enums

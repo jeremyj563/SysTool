@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Enums;
 using SysTool.Extensions;
-using SysTool.UserControls;
 
-namespace SysTool.Controls {
+namespace SysTool.Components {
     public class ComputerNode : TreeNode {
 
         #region Public Properties
