@@ -1,8 +1,8 @@
 ﻿
 using System.Windows.Forms;
 
-namespace SysTool.Components {
-    partial class PanelBase {
+namespace SysTool.Components.Panels {
+    partial class BasePanel {
         /// <summary> 
         /// Required designer variable.
         /// </summary>

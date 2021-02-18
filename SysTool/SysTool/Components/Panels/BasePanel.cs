@@ -4,8 +4,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using SysTool.Models;
 
-namespace SysTool.Components {
-    public partial class PanelBase : UserControl, INotifyPropertyChanged {
+namespace SysTool.Components.Panels {
+    public partial class BasePanel : UserControl, INotifyPropertyChanged {
 
         #region Public Events
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -16,7 +16,7 @@ namespace SysTool.Components {
         #endregion
 
         #region Constructors
-        public PanelBase(IDataUnit dataUnit) {
+        public BasePanel(IDataUnit dataUnit) {
             this.InitializeComponent();
             this.DataUnit = dataUnit;
         }

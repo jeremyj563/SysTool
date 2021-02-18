@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using SysTool.Components.Panels;
 using SysTool.Models;
 using SysTool.Repositories;
 

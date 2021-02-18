@@ -54,4 +54,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\ListViews\" />
+    <Folder Include="Components\TabPages\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SysTool.Components.Panels;
 using SysTool.Enums;
 using SysTool.Extensions;
 

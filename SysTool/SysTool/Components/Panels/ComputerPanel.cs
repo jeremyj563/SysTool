@@ -7,8 +7,8 @@ using SysTool.Models;
 using SysTool.Properties;
 using SysTool.Repositories;
 
-namespace SysTool.Components {
-    public class ComputerPanel : PanelBase {
+namespace SysTool.Components.Panels {
+    public class ComputerPanel : BasePanel {
 
         #region Private Fields
         private ConnectionState _connectionState;

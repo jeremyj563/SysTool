@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SysTool.Components;
+using SysTool.Components.Panels;
 using SysTool.Models;
 using SysTool.Repositories;
 
