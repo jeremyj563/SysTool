@@ -11,6 +11,7 @@ namespace SysTool.Forms {
 
         #region Private Properties
         private ComputerRepository ComputerRepository { get; }
+        private BindingSource BindingSource { get; } = new BindingSource();
         #endregion
 
         #region Constructors
@@ -46,7 +47,7 @@ namespace SysTool.Forms {
 
         #region Public Methods
         public async Task InitializeAsync() {
-            await this.ComputerRepository.InitializeAsync();
+            this.BindingSource.DataSource = await this.ComputerRepository.GetAsync();
         }
         #endregion
 
@@ -56,7 +57,7 @@ namespace SysTool.Forms {
             comboBox.GotFocus += (s, e) => this.AcceptButton = this.SubmitButton;
             comboBox.DisplayMember = nameof(IDataUnit.Display);
             comboBox.ValueMember = nameof(IDataUnit.Value);
-            comboBox.DataSource = this.ComputerRepository.BindingSource;
+            comboBox.DataSource = this.BindingSource;
             comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
             comboBox.SelectedItem = null;

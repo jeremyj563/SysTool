@@ -10,11 +10,6 @@ using SysTool.Repositories;
 namespace SysTool.Components.Panels {
     public class ComputerPanel : BasePanel {
 
-        #region Private Fields
-        private ConnectionState _connectionState;
-        private UserStatus _userStatus;
-        #endregion
-
         #region Public Properties
         public Computer Computer { get; }
         public WMIRepository WMI { get; }
@@ -32,6 +27,11 @@ namespace SysTool.Components.Panels {
                 base.InvokePropertyChangedEvent(nameof(UserStatus));
             }
         }
+        #endregion
+
+        #region Private Fields
+        private ConnectionState _connectionState;
+        private UserStatus _userStatus;
         #endregion
 
         #region Constructors
