@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using SysTool.Extensions;
 using SysTool.Models;
 using SysTool.Models.WMI;
 
@@ -20,38 +19,32 @@ namespace SysTool.Repositories {
         }
         #endregion
 
+        #region Repository Methods
+        public Task<List<Computer>> GetChangedComputersAsync(DateTime dateTime) {
+            var dmtfDateTime = ManagementDateTimeConverter.ToDmtfDateTime(dateTime);
+            var whenChanged = dmtfDateTime.Split('.').First();
+            var condition = $"!whenChanged<={whenChanged}.0Z";
+            return this.GetComputersAsync(condition);
+        }
+        #endregion
+
         #region Public Methods
-        public Computer? Get(string hostname) {
-            return this.Where(c => c.Value == hostname)
-                ?.SingleOrDefault();
+        public List<Computer>? Get(string? condition = default) {
+            return this.GetComputers(condition);
         }
-        public List<Computer>? Get() {
-            return this.GetComputers();
-        }
-        public Task<List<Computer>> GetAsync() {
-            return this.GetComputersAsync();
-        }
-        public List<Computer>? Where(Func<Computer, bool> predicate) {
-            return this.GetComputers()
-                ?.Where(predicate)
-                ?.ToList();
-        }
-        public async Task<List<Computer>?> WhereAsync(Func<Computer, Task<bool>> predicate) {
-            var computers = await this.GetComputersAsync();
-            return await computers
-                .WhereAsync(predicate)
-                .ConfigureAwait(false);
+        public Task<List<Computer>> GetAsync(string? condition = default) {
+            return this.GetComputersAsync(condition);
         }
         #endregion
 
         #region Private Methods
-        private List<Computer> GetComputers() {
-            return this.LocalWMI_LDAP.Get<ds_computer>()
+        private List<Computer> GetComputers(string? condition = default) {
+            return this.LocalWMI_LDAP.Get<ds_computer>(condition: condition)
                 .Select(c => new Computer(c))
                 .ToList();
         }
-        private async Task<List<Computer>> GetComputersAsync() {
-            var ds_computers = await this.LocalWMI_LDAP.GetAsync<ds_computer>();
+        private async Task<List<Computer>> GetComputersAsync(string? condition = default) {
+            var ds_computers = await this.LocalWMI_LDAP.GetAsync<ds_computer>(condition: condition);
             return ds_computers
                 .Select(c => new Computer(c))
                 .ToList();

@@ -1,37 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SysTool.Models;
+using SysTool.Repositories;
 
 namespace SysTool.Monitors {
     public class LDAPMonitor : BaseMonitor {
 
         #region Public Properties
-        public List<Computer> Computers { get; private set; }
-        public List<Computer> UpdatedComputers {
-            get => this._updatedComputers;
+        public DateTime LastChanged { get; private set; }
+        public List<Computer> ChangedComputers {
+            get => this._changedComputers;
             private set {
-                this._updatedComputers = value;
-                base.InvokePropertyChangedEvent(nameof(UpdatedComputers));
+                this._changedComputers = value;
+                this.LastChanged = DateTime.Now;
+                base.InvokePropertyChangedEvent(nameof(ChangedComputers));
             }
         }
         #endregion
 
+        #region Private Properties
+        private ComputerRepository ComputerRepository { get; }
+        #endregion
+
         #region Private Fields
-        private List<Computer> _updatedComputers = new List<Computer>();
+        private List<Computer> _changedComputers = new List<Computer>();
         #endregion
 
         #region Constructors
-        public LDAPMonitor(List<Computer> computers) {
-            this.Computers = computers;
+        public LDAPMonitor(ComputerRepository computerRepository) {
+            this.ComputerRepository = computerRepository;
+            this.LastChanged = DateTime.Now;
         }
         #endregion
 
         #region Public Methods
-        public void Start() {
-            this.UpdatedComputers = this.Computers;
+        public async Task StartAsync(TimeSpan interval, CancellationToken token) {
+            while (!token.IsCancellationRequested) {
+                await this.StartMonitorAsync(interval, token);
+            }
+        }
+        #endregion
+
+        #region Private Methods
+        private async Task StartMonitorAsync(TimeSpan interval, CancellationToken token) {
+            try {
+                await this.SetChangedComputers();
+                BaseMonitor.Sleep(interval, token);
+            } catch (OperationCanceledException) {
+                return;
+            }
+        }
+        private async Task SetChangedComputers() {
+            this.ChangedComputers = await this.ComputerRepository
+                .GetChangedComputersAsync(this.LastChanged);
         }
         #endregion
     }
